@@ -282,13 +282,9 @@ app.post('/login', function (req, res) {
   if (userOk && passOk) {
     clearAttempts(ip);
     var token = jwt.sign({ authenticated: true }, JWT_SECRET, { expiresIn: '4h' });
-    res.cookie('_eai_token', token, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.VERCEL === '1',
-      maxAge: 4 * 60 * 60 * 1000,
-      path: '/',
-    });
+    var isSecure = process.env.VERCEL === '1';
+    var cookieStr = '_eai_token=' + token + '; Path=/; HttpOnly; SameSite=Lax; Max-Age=14400' + (isSecure ? '; Secure' : '');
+    res.setHeader('Set-Cookie', cookieStr);
     res.redirect('/');
   } else {
     recordFailedAttempt(ip);
@@ -297,7 +293,7 @@ app.post('/login', function (req, res) {
 });
 
 app.get('/logout', function (req, res) {
-  res.clearCookie('_eai_token', { path: '/' });
+  res.setHeader('Set-Cookie', '_eai_token=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0');
   res.redirect('/login');
 });
 
