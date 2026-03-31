@@ -269,8 +269,8 @@ app.post('/login', function (req, res) {
     return res.redirect('/login?e=1');
   }
 
-  var username = req.body.username;
-  var password = req.body.password;
+  var username = req.body ? req.body.username : undefined;
+  var password = req.body ? req.body.password : undefined;
 
   if (typeof username !== 'string' || typeof password !== 'string') {
     return res.redirect('/login?e=1');
