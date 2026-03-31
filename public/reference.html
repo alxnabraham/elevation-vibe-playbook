@@ -97,7 +97,7 @@
 
       <div class="callout callout--info">
         <div class="callout-title">Why this matters</div>
-        This flow ensures nobody's broken code reaches the demo site. You verify on your own preview first, then Alan merges to sandbox, and finally to demo.
+        This flow ensures nobody's broken code reaches the demo site. You verify on your own preview first, then Admin merges to sandbox, and finally to demo.
       </div>
 
       <!-- ══════════ AI TOOLS ══════════ -->
@@ -138,12 +138,12 @@
         <table>
           <thead><tr><th>Problem</th><th>What Happened</th><th>Fix</th></tr></thead>
           <tbody>
-            <tr><td><strong>Merge conflicts after pushing</strong></td><td>Forgot to pull before AI session</td><td>Message Alan. Always <code>git pull origin staging</code> first.</td></tr>
+            <tr><td><strong>Merge conflicts after pushing</strong></td><td>Forgot to pull before AI session</td><td>Message Admin. Always <code>git pull origin staging</code> first.</td></tr>
             <tr><td><strong>AI modified unexpected files</strong></td><td>AI "fixed" things you didn't ask about</td><td>Source Control &rarr; right-click file &rarr; <strong>Discard Changes</strong></td></tr>
             <tr><td><strong>AI changed package.json</strong></td><td>AI added unnecessary packages</td><td><code>git checkout package.json package-lock.json</code> then <code>npm install</code></td></tr>
             <tr><td><strong>Build fails on Vercel</strong></td><td>AI introduced a syntax error</td><td>Check Vercel build log. Ask AI to fix the error. Push again.</td></tr>
             <tr><td><strong>Changes are only on your computer</strong></td><td>You coded but never pushed</td><td>Run <code>git add . && git commit -m "message" && git push</code></td></tr>
-            <tr><td><strong>Wrong branch</strong></td><td>You were on <code>demo</code> or <code>sandbox</code></td><td>Message Alan immediately. Always check bottom-left of VS Code.</td></tr>
+            <tr><td><strong>Wrong branch</strong></td><td>You were on <code>demo</code> or <code>sandbox</code></td><td>Message Admin immediately. Always check bottom-left of VS Code.</td></tr>
           </tbody>
         </table>
       </div>
@@ -226,7 +226,7 @@ hardcoded colors.</code></pre>
         <li>Sign in at <code>devagents.elevationai.com</code> with your <code>@elevationai.com</code> Google account</li>
         <li>Try an <strong>Incognito/Private</strong> window</li>
         <li>If using Safari &mdash; switch to Chrome (Safari has stricter cookie policies)</li>
-        <li>If none of this works &mdash; message Alan. Jay may need to whitelist your preview URL.</li>
+        <li>If none of this works &mdash; message Admin. Jay may need to whitelist your preview URL.</li>
       </ul>
 
       <h3>"Not Authenticated" error</h3>
@@ -240,17 +240,17 @@ hardcoded colors.</code></pre>
       <h3>"Merge conflict" error</h3>
       <div class="callout callout--danger">
         <div class="callout-title">Do NOT try to fix this yourself</div>
-        Take a screenshot, message Alan on Slack. Incorrect conflict resolution can break the codebase for everyone.
+        Take a screenshot, message Admin on Slack. Incorrect conflict resolution can break the codebase for everyone.
       </div>
 
       <h3>I pushed to the wrong branch</h3>
-      <p><strong>Don't panic.</strong> Message Alan immediately with which branch and what you changed. This is fixable.</p>
+      <p><strong>Don't panic.</strong> Message Admin immediately with which branch and what you changed. This is fixable.</p>
 
       <h3>I'm working on stale code</h3>
       <p>Run <code>git pull origin staging</code>. This should be the first thing you do every time you open VS Code.</p>
 
       <h3>"Unauthorized" when cloning</h3>
-      <p>Your GitHub account doesn't have access. Message Alan to get added to the Elevation AI organization.</p>
+      <p>Your GitHub account doesn't have access. Message Admin to get added to the Elevation AI organization.</p>
 
       <h2 id="ts-vercel"><span class="section-number">9.</span> Troubleshooting: Vercel &amp; Previews</h2>
 
@@ -264,7 +264,7 @@ hardcoded colors.</code></pre>
       <h3>"Does not have contributing access"</h3>
       <ul>
         <li>Your Vercel account isn't on the Elevation AI team</li>
-        <li>Message Alan for a team invite</li>
+        <li>Message Admin for a team invite</li>
         <li>Your Vercel email must match your GitHub email</li>
       </ul>
 
@@ -292,7 +292,7 @@ hardcoded colors.</code></pre>
       <hr />
 
       <p style="color: var(--text-tertiary); font-style: italic;">
-        This is a living document. As our workflow improves, it will be updated. Questions? Message Alan on Slack in <strong>#ws-apps</strong>.
+        This is a living document. As our workflow improves, it will be updated. Questions? Message Admin on Slack in <strong>#ws-apps</strong>.
       </p>
 
       <div class="doc-footer">

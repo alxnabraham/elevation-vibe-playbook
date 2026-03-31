@@ -156,12 +156,12 @@
             <tr>
               <td><strong>Kevin</strong></td>
               <td><code>dev-kevin</code></td>
-              <td><em>Coming soon &mdash; ask Alan</em></td>
+              <td><em>Coming soon &mdash; ask Admin</em></td>
             </tr>
             <tr>
               <td><strong>Chris</strong></td>
               <td><code>dev-chris</code></td>
-              <td><em>Coming soon &mdash; ask Alan</em></td>
+              <td><em>Coming soon &mdash; ask Admin</em></td>
             </tr>
           </tbody>
         </table>
@@ -215,7 +215,7 @@
             <p>This downloads the latest code from the shared <code>staging</code> branch into your branch.</p>
           </div>
           <div class="step-item">
-            <p>If you see <strong>"Already up to date"</strong> &mdash; you are good. If you see <strong>"merge conflict"</strong> &mdash; stop and message Alan.</p>
+            <p>If you see <strong>"Already up to date"</strong> &mdash; you are good. If you see <strong>"merge conflict"</strong> &mdash; stop and message Admin.</p>
           </div>
         </div>
       </div>
@@ -279,13 +279,13 @@ git push</code></pre>
           <p><em>"My changes on <code>dev-[yourname]</code> are ready. I've verified on my preview URL. Here's what I changed: [brief description]."</em></p>
         </div>
         <div class="step-item">
-          <p><strong>Alan will review and merge</strong> your branch into <code>sandbox</code>.</p>
+          <p><strong>Admin will review and merge</strong> your branch into <code>sandbox</code>.</p>
         </div>
       </div>
 
       <div class="callout callout--danger">
         <div class="callout-title">Never push directly to sandbox or demo</div>
-        All merges to <code>sandbox</code> and <code>demo</code> go through Alan. This prevents breaking the shared preview and the investor-facing site.
+        All merges to <code>sandbox</code> and <code>demo</code> go through Admin. This prevents breaking the shared preview and the investor-facing site.
       </div>
 
       <!-- ══════════════════════════════════════════
@@ -303,7 +303,7 @@ git push</code></pre>
             <tr><td>After coding</td><td>Stage all changes</td><td><code>git add .</code></td></tr>
             <tr><td>After staging</td><td>Commit with message</td><td><code>git commit -m "your message"</code></td></tr>
             <tr><td>After committing</td><td>Push to GitHub</td><td><code>git push</code></td></tr>
-            <tr><td>Something broke</td><td>Don't panic</td><td>Message Alan with a screenshot</td></tr>
+            <tr><td>Something broke</td><td>Don't panic</td><td>Message Admin with a screenshot</td></tr>
           </tbody>
         </table>
       </div>
@@ -319,9 +319,9 @@ git push</code></pre>
         <table>
           <thead><tr><th>Branch</th><th>Purpose</th><th>Who Touches It</th></tr></thead>
           <tbody>
-            <tr><td><code>demo</code></td><td>The live site shown to investors. <strong>Never touch this.</strong></td><td>Alan only</td></tr>
-            <tr><td><code>sandbox</code></td><td>Shared testing ground. Changes go here before demo.</td><td>Alan merges approved work here</td></tr>
-            <tr><td><code>staging</code></td><td>The source of truth for development. You pull from here.</td><td>Alan merges reviewed code here</td></tr>
+            <tr><td><code>demo</code></td><td>The live site shown to investors. <strong>Never touch this.</strong></td><td>Admin only</td></tr>
+            <tr><td><code>sandbox</code></td><td>Shared testing ground. Changes go here before demo.</td><td>Admin merges approved work here</td></tr>
+            <tr><td><code>staging</code></td><td>The source of truth for development. You pull from here.</td><td>Admin merges reviewed code here</td></tr>
             <tr><td><code>dev-[yourname]</code></td><td>Your personal workspace. All your work happens here.</td><td>Only you</td></tr>
           </tbody>
         </table>
