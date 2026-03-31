@@ -273,6 +273,24 @@ hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
 }
 
 /* ═══════════════════════════════════════════════
+   CRITICAL HIGHLIGHT CARD
+   ═══════════════════════════════════════════════ */
+.critical-card {
+  background: linear-gradient(135deg, #fef2f2 0%, #fff5f5 50%, #fefce8 100%);
+  border: 2px solid var(--danger-border);
+  border-left: 5px solid var(--danger-border);
+  border-radius: var(--radius);
+  padding: 28px 28px 20px;
+  margin: 20px 0 32px;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(223, 53, 35, 0.08), 0 0 0 1px rgba(223, 53, 35, 0.04);
+}
+.critical-card .callout--danger {
+  background: rgba(223, 53, 35, 0.08);
+  border-color: var(--danger-border);
+}
+
+/* ═══════════════════════════════════════════════
    CROSS-PAGE NAVIGATION (top of sidebar)
    ═══════════════════════════════════════════════ */
 .cross-nav {
