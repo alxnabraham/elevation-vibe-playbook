@@ -124,12 +124,12 @@ app.get('/login', function (req, res) {
   <title>Sign In — Elevation AI Docs</title>\n\
   <link rel="preconnect" href="https://fonts.googleapis.com" />\n\
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n\
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />\n\
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />\n\
   <style>\n\
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n\
     body {\n\
-      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;\n\
-      background: #FAFAFA;\n\
+      font-family: "Instrument Sans", -apple-system, BlinkMacSystemFont, sans-serif;\n\
+      background: #fafbfc;\n\
       display: flex;\n\
       align-items: center;\n\
       justify-content: center;\n\
@@ -138,8 +138,8 @@ app.get('/login', function (req, res) {
     }\n\
     .login-card {\n\
       background: #fff;\n\
-      border: 1px solid #E4E4E7;\n\
-      border-radius: 12px;\n\
+      border: 1px solid #e4e7ec;\n\
+      border-radius: 14px;\n\
       padding: 48px 40px 40px;\n\
       width: 100%;\n\
       max-width: 400px;\n\
@@ -154,7 +154,7 @@ app.get('/login', function (req, res) {
     }\n\
     .logo-mark {\n\
       width: 36px; height: 36px;\n\
-      background: #4361EE;\n\
+      background: #0e62fd;\n\
       border-radius: 9px;\n\
       display: flex;\n\
       align-items: center;\n\
@@ -166,20 +166,20 @@ app.get('/login', function (req, res) {
     .logo-text {\n\
       font-weight: 700;\n\
       font-size: 18px;\n\
-      color: #18181B;\n\
+      color: #09090b;\n\
       letter-spacing: -0.01em;\n\
     }\n\
     h1 {\n\
       font-size: 22px;\n\
       font-weight: 700;\n\
-      color: #18181B;\n\
+      color: #09090b;\n\
       text-align: center;\n\
       margin-bottom: 6px;\n\
       letter-spacing: -0.015em;\n\
     }\n\
     .subtitle {\n\
       font-size: 14px;\n\
-      color: #71717A;\n\
+      color: #71717a;\n\
       text-align: center;\n\
       margin-bottom: 28px;\n\
     }\n\
@@ -187,7 +187,7 @@ app.get('/login', function (req, res) {
       display: block;\n\
       font-size: 13px;\n\
       font-weight: 600;\n\
-      color: #3F3F46;\n\
+      color: #585f6f;\n\
       margin-bottom: 6px;\n\
     }\n\
     input {\n\
@@ -195,15 +195,15 @@ app.get('/login', function (req, res) {
       padding: 10px 14px;\n\
       font-size: 14px;\n\
       font-family: inherit;\n\
-      border: 1px solid #E4E4E7;\n\
+      border: 1px solid #e4e7ec;\n\
       border-radius: 8px;\n\
       outline: none;\n\
       transition: border-color 180ms ease;\n\
       margin-bottom: 18px;\n\
-      color: #18181B;\n\
+      color: #09090b;\n\
     }\n\
     input:focus {\n\
-      border-color: #4361EE;\n\
+      border-color: #0e62fd;\n\
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);\n\
     }\n\
     input:disabled { opacity: 0.5; cursor: not-allowed; }\n\
@@ -213,15 +213,15 @@ app.get('/login', function (req, res) {
       font-size: 14px;\n\
       font-weight: 600;\n\
       font-family: inherit;\n\
-      background: #4361EE;\n\
+      background: #0e62fd;\n\
       color: #fff;\n\
       border: none;\n\
       border-radius: 8px;\n\
       cursor: pointer;\n\
       transition: background 180ms ease;\n\
     }\n\
-    button:hover { background: #3651D4; }\n\
-    button:disabled { background: #A1A1AA; cursor: not-allowed; }\n\
+    button:hover { background: #0d58e4; }\n\
+    button:disabled { background: #71717a; cursor: not-allowed; }\n\
     .error {\n\
       background: #FEF2F2;\n\
       border: 1px solid #FECACA;\n\
@@ -235,7 +235,7 @@ app.get('/login', function (req, res) {
     .footer {\n\
       text-align: center;\n\
       font-size: 12px;\n\
-      color: #A1A1AA;\n\
+      color: #71717a;\n\
       margin-top: 24px;\n\
     }\n\
   </style>\n\
