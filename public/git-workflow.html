@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Git + Vercel Workflow Guide — Elevation AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-mark">E</span>
+      Elevation AI
+    </a>
+    <span class="divider">/</span>
+    <span class="doc-title">Git + Vercel Workflow</span>
+    <div class="header-right">
+      <span class="badge badge--internal">Internal</span>
+      <span class="badge badge--updated">Updated Mar 30, 2026</span>
+    </div>
+  </header>
+
+  <nav class="sidebar" id="sidebar">
+    <div class="cross-nav">
+      <span class="cross-nav-label">All Guides</span>
+      <a href="git-workflow.html" class="current-page">&#x1F504; Git + Vercel Workflow</a>
+      <a href="ai-development.html">&#x1F916; AI-Assisted Development</a>
+      <a href="environment-setup.html">&#x2699;&#xFE0F; Environment Setup</a>
+      <a href="starter-kit.html">&#x1F4E6; Starter Kit &amp; Design System</a>
+      <a href="troubleshooting.html">&#x1F527; Troubleshooting</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Getting Started</span>
+      <a href="#big-picture" data-section="big-picture"><span class="nav-icon">&#x1F5FA;</span> The Big Picture</a>
+      <div class="sub-links">
+        <a href="#what-are-tools">What are Git, GitHub, Vercel?</a>
+        <a href="#how-changes-flow">How changes flow</a>
+        <a href="#branch-structure">Our branch structure</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Setup (One-Time)</span>
+      <a href="#one-time-setup" data-section="one-time-setup"><span class="nav-icon">&#x2699;&#xFE0F;</span> One-Time Setup</a>
+      <div class="sub-links">
+        <a href="#step-a">A: Get access</a>
+        <a href="#step-b">B: Clone the project</a>
+        <a href="#step-c">C: Switch to your branch</a>
+        <a href="#step-d">D: Environment variables</a>
+        <a href="#step-e">E: Auth &amp; cookies</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Daily Use</span>
+      <a href="#daily-workflow" data-section="daily-workflow"><span class="nav-icon">&#x1F504;</span> Daily Workflow</a>
+      <div class="sub-links">
+        <a href="#wf-step-1">1: Sync your branch</a>
+        <a href="#wf-step-2">2: Make changes</a>
+        <a href="#wf-step-3">3: Push to GitHub</a>
+        <a href="#wf-step-4">4: Check preview</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <a href="#merging" data-section="merging"><span class="nav-icon">&#x1F680;</span> Merging to Demo</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Reference</span>
+      <a href="#troubleshooting" data-section="troubleshooting"><span class="nav-icon">&#x1F527;</span> Troubleshooting</a>
+      <a href="#quick-ref" data-section="quick-ref"><span class="nav-icon">&#x1F4CB;</span> Quick Reference</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content-wrapper">
+
+      <h1>Git + Vercel Workflow Guide</h1>
+      <p class="page-description">
+        Everything you need to make changes, preview them on your own URL, and get them into the live demo site. This guide assumes zero coding knowledge.
+      </p>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">Before you start</div>
+        This guide assumes you already have <strong>VS Code</strong> installed and a <strong>GitHub account</strong> connected to the Elevation AI organization. If you don't have these, message Alan on Slack first.
+      </div>
+
+      <h2 id="big-picture"><span class="section-number">1.</span> The Big Picture</h2>
+      <p>Before diving into steps, here is a plain-English explanation of how our system works.</p>
+
+      <h3 id="what-are-tools">What are Git, GitHub, and Vercel?</h3>
+      <p><strong>Git</strong> is a tool that tracks every change anyone makes to our code. Think of it like Google Docs version history, but for code.</p>
+      <p><strong>GitHub</strong> is the website where our code lives online. It is like a shared Google Drive folder, but specifically for code. Our project is stored there under the Elevation AI organization.</p>
+      <p><strong>Vercel</strong> is the service that takes our code and turns it into a live website you can visit in your browser. Every time code is pushed to GitHub, Vercel automatically rebuilds the website with the latest changes.</p>
+
+      <h3 id="how-changes-flow">How changes flow</h3>
+      <p>Here is the journey every change takes, from your computer to the live website:</p>
+      <div class="flow">
+        <div class="flow-step">You edit code in VS Code</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Push to your branch on GitHub</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Vercel auto-builds your preview URL</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step flow-step--accent">You see it live!</div>
+      </div>
+
+      <h3 id="branch-structure">Our branch structure</h3>
+      <p>Think of branches as separate copies of the project. Each person works on their own copy so nobody steps on anyone else's work.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Branch Name</th><th>Purpose</th><th>Who Touches It</th></tr></thead>
+          <tbody>
+            <tr><td><code>demo</code></td><td>The version shown to investors and clients. This is the live product.</td><td>Nobody directly. Alan merges approved changes here.</td></tr>
+            <tr><td><code>staging</code></td><td>The testing ground. Changes go here first before reaching demo.</td><td>Alan merges reviewed changes here.</td></tr>
+            <tr><td><code>dev-[yourname]</code></td><td>Your personal workspace. This is where you make all your changes.</td><td>Only you. Example: <code>dev-sachin</code>, <code>dev-kevin</code>, <code>dev-chris</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--danger">
+        <div class="callout-title">The Golden Rule</div>
+        <strong>NEVER push directly to the <code>demo</code> or <code>staging</code> branches.</strong> Always work on your own <code>dev-[yourname]</code> branch. When your changes are ready, Alan or the tech lead will merge them.
+      </div>
+
+      <h2 id="one-time-setup"><span class="section-number">2.</span> One-Time Setup</h2>
+      <p>You only need to do these steps <strong>once</strong>. After this, skip to <a href="#daily-workflow">Section 3</a> for your daily workflow.</p>
+
+      <h3 id="step-a">Step A &mdash; Get access to everything</h3>
+      <p>Before anything else, make sure you have access to all three systems. If any of these are missing, message Alan on Slack.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>System</th><th>What You Need</th><th>How to Check</th></tr></thead>
+          <tbody>
+            <tr><td><strong>GitHub</strong></td><td>Member of the Elevation AI organization with access to the EI V2 Redesign repo</td><td>Go to <code>github.com/elevation-ai</code> &mdash; you should see the repo listed</td></tr>
+            <tr><td><strong>Vercel</strong></td><td>Member of the Elevation AI team (Pro plan)</td><td>Go to <code>vercel.com</code> &mdash; you should see "Elevation AI" in the team dropdown (top left)</td></tr>
+            <tr><td><strong>VS Code</strong></td><td>Installed on your computer</td><td>Open VS Code &mdash; if it opens, you have it</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="step-b">Step B &mdash; Clone the project to your computer</h3>
+      <p>This downloads a copy of the entire project to your computer so you can work on it.</p>
+      <div class="steps">
+        <div class="step-item"><p>Open <strong>VS Code</strong>.</p></div>
+        <div class="step-item"><p>Press <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (Mac). This opens the <strong>Command Palette</strong>.</p></div>
+        <div class="step-item"><p>Type <code>Git: Clone</code> and select it from the dropdown.</p></div>
+        <div class="step-item"><p>It will ask for a URL. Paste the repo URL that Alan shared in the Slack <strong>#ws-apps</strong> channel.</p></div>
+        <div class="step-item"><p>Choose a folder on your computer where you want to save it (e.g., your Documents or Desktop).</p></div>
+        <div class="step-item"><p>VS Code will download the project and ask if you want to open it. Click <strong>Open</strong>.</p></div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">Using Cursor or Windsurf instead of VS Code?</div>
+        The steps are identical. These tools are built on VS Code, so all commands work the same way.
+      </div>
+
+      <h3 id="step-c">Step C &mdash; Switch to your personal branch</h3>
+      <p>After cloning, you will be on the <code>demo</code> branch by default. You need to switch to your personal branch.</p>
+      <div class="steps">
+        <div class="step-item"><p>Look at the <strong>bottom-left corner</strong> of VS Code. You will see a branch name (probably "demo" or "main").</p></div>
+        <div class="step-item"><p>Click on that branch name. A dropdown will appear at the top of the screen.</p></div>
+        <div class="step-item"><p>Find and select your branch: <code>dev-[yourname]</code> (e.g., <code>dev-sachin</code>, <code>dev-kevin</code>, <code>dev-chris</code>, <code>dev-hanzel</code>).</p></div>
+        <div class="step-item"><p>If you do not see your branch, select <strong>"Create new branch from..."</strong> and type your branch name, then select <code>demo</code> as the source.</p></div>
+      </div>
+
+      <div class="callout callout--success">
+        <div class="callout-title">How to verify you are on the right branch</div>
+        Look at the <strong>bottom-left corner</strong> of VS Code. It should show your branch name (e.g., <code>dev-sachin</code>). If it says <code>demo</code> or <code>staging</code>, you are on the wrong branch.
+      </div>
+
+      <h3 id="step-d">Step D &mdash; Set up environment variables</h3>
+      <p>The project needs some secret keys to connect to our backend services. Without these, the app will show "Access Denied."</p>
+      <div class="steps">
+        <div class="step-item"><p>In Slack, go to the <strong>#ws-apps</strong> channel. Find the pinned message with the environment variables.</p></div>
+        <div class="step-item"><p>In VS Code, find the project root folder (the top level). Create a new file called exactly <code>.env.local</code> (note the dot at the beginning).</p></div>
+        <div class="step-item"><p>Copy and paste the entire contents from the Slack message into this file.</p></div>
+        <div class="step-item"><p>Save the file.</p></div>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">Important</div>
+        <strong>Never share this file or commit it to GitHub.</strong> It contains private keys. The project is already set up to ignore this file automatically, but do not rename it or move it.
+      </div>
+
+      <h3 id="step-e">Step E &mdash; Auth and cookie setup</h3>
+      <p>Our app uses authentication that requires a small one-time cookie setup to work with your Vercel preview URL.</p>
+      <div class="steps">
+        <div class="step-item"><p>Open your browser and go to <strong><code>dev-agents.elevation.com</code></strong>.</p></div>
+        <div class="step-item"><p>Sign in with your <code>@elevationai.com</code> Google account.</p></div>
+        <div class="step-item"><p>Once signed in, right-click anywhere on the page and select <strong>Inspect</strong> (or press <code>F12</code>).</p></div>
+        <div class="step-item"><p>In the panel that opens, click the <strong>Application</strong> tab at the top.</p></div>
+        <div class="step-item"><p>In the left sidebar, expand <strong>Cookies</strong> and click on the current site.</p></div>
+        <div class="step-item"><p>Find the cookies named <code>elevation_dev</code> and <code>dev_user</code>. For each one, double-click the <strong>Domain</strong> column and change it to your Vercel preview URL domain (the part after <code>https://</code>, without the <code>https://</code>). Alan will share your specific URL.</p></div>
+        <div class="step-item"><p>Refresh the page. You should now see the app.</p></div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">Jay is setting up per-branch auth (ETA: March 31)</div>
+        Once Jay completes the backend update, each person's preview URL will authenticate automatically. This cookie step will no longer be needed. Alan will notify everyone when it is ready.
+      </div>
+
+      <h2 id="daily-workflow"><span class="section-number">3.</span> Your Daily Workflow</h2>
+      <p><strong>This is the section you will use every day.</strong> The steps below are what you do each time you sit down to work on the app.</p>
+
+      <div class="callout callout--danger">
+        <div class="callout-title">EVERY TIME you open VS Code to work, start with Step 1</div>
+        Skipping Step 1 means you are working on old code. This causes <strong>merge conflicts</strong> that are painful to fix and can break other people's work.
+      </div>
+
+      <h3 id="wf-step-1">Step 1 &mdash; Sync your branch (pull latest changes)</h3>
+      <p>Before you touch anything, pull the latest code so you are working with the most recent version.</p>
+      <div class="steps">
+        <div class="step-item"><p>Open VS Code and confirm you are on <strong>your branch</strong> (check bottom-left corner &mdash; it should say <code>dev-[yourname]</code>).</p></div>
+        <div class="step-item"><p>Open the <strong>Terminal</strong> in VS Code: go to the top menu bar and click <strong>Terminal &rarr; New Terminal</strong>.</p></div>
+        <div class="step-item"><p>In the terminal, type the following and press Enter:</p><pre><code>git pull origin staging</code></pre><p>This downloads the latest approved code from the <code>staging</code> branch into your branch.</p></div>
+        <div class="step-item"><p>If there are no errors, you are ready to work. If you see a <strong>"merge conflict"</strong> error, stop and message Alan on Slack.</p></div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">What does "git pull origin staging" mean?</div>
+        <code>git pull</code> = download latest changes. <code>origin</code> = from GitHub. <code>staging</code> = from the staging branch (the source of truth for development).
+      </div>
+
+      <h3 id="wf-step-2">Step 2 &mdash; Make your changes</h3>
+      <p>Now you can edit files, work with your AI coding assistant, or make whatever changes you need.</p>
+      <ul>
+        <li>Use the <strong>file explorer</strong> on the left side of VS Code to navigate to the files you want to edit.</li>
+        <li>If you are using an AI assistant (Claude, Cursor, Windsurf), you can ask it to make changes and it will edit the files for you.</li>
+        <li>Save your files frequently: <code>Ctrl+S</code> (Windows) or <code>Cmd+S</code> (Mac).</li>
+      </ul>
+      <p>For detailed guidance on working with AI coding assistants, see the <a href="ai-development.html">AI-Assisted Development Guide</a>.</p>
+
+      <h3 id="wf-step-3">Step 3 &mdash; Push your changes to GitHub</h3>
+      <p>When you are happy with your changes, push them to GitHub so Vercel can build your preview.</p>
+
+      <h3>Option A: Using VS Code's Git panel <span style="font-weight: 400; font-size: 14px; color: var(--text-tertiary);">(recommended for beginners)</span></h3>
+      <div class="steps">
+        <div class="step-item"><p>Click the <strong>Source Control icon</strong> in the left sidebar (it looks like a branching line, or press <code>Ctrl+Shift+G</code> / <code>Cmd+Shift+G</code>).</p></div>
+        <div class="step-item"><p>You will see a list of all files you changed. Review them.</p></div>
+        <div class="step-item"><p>In the text box at the top that says "Message", type a <strong>short description</strong> of what you changed. Example: <em>"Fixed dashboard background color"</em> or <em>"Updated calendar layout"</em>.</p></div>
+        <div class="step-item"><p>Click the <strong>checkmark button</strong> to commit. If asked whether to stage all changes, click <strong>Yes</strong>.</p></div>
+        <div class="step-item"><p>Click the <strong>three dots (...)</strong> menu at the top of the Source Control panel, then click <strong>Push</strong>.</p></div>
+      </div>
+
+      <h3>Option B: Using the terminal <span style="font-weight: 400; font-size: 14px; color: var(--text-tertiary);">(faster once you are comfortable)</span></h3>
+      <p>Open the terminal in VS Code and run these three commands one by one:</p>
+      <pre><code>git add .
+git commit -m "describe your change here"
+git push</code></pre>
+
+      <h3 id="wf-step-4">Step 4 &mdash; Check your preview URL</h3>
+      <p>After pushing, Vercel automatically rebuilds your preview. This usually takes <strong>1&ndash;3 minutes</strong>.</p>
+      <div class="steps">
+        <div class="step-item"><p>Go to <code>vercel.com</code> and open the <strong>Elevation AI</strong> team.</p></div>
+        <div class="step-item"><p>Click on the <strong>EI V2 Redesign</strong> project.</p></div>
+        <div class="step-item"><p>You will see <strong>Active Branches</strong> listed. Find your branch name (<code>dev-[yourname]</code>) and click its preview URL.</p></div>
+        <div class="step-item"><p>Your latest changes should appear. If Vercel says "Building", wait a minute and refresh.</p></div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">Your personal preview URL</div>
+        Each person has their own URL that only shows code from their branch. Alan will share your specific URL. <strong>Bookmark it</strong> &mdash; you will visit it often.
+      </div>
+
+      <h2 id="merging"><span class="section-number">4.</span> Getting Your Changes Into Demo</h2>
+      <p>Once you are happy with how your changes look on your preview URL, here is how they get to the live demo site.</p>
+      <div class="steps">
+        <div class="step-item"><p><strong>Message Alan or the tech lead on Slack:</strong> "My changes on <code>dev-[yourname]</code> are ready to merge. Here is what I changed: [brief description]."</p></div>
+        <div class="step-item"><p><strong>Alan will review your changes</strong> on your preview URL and on GitHub.</p></div>
+        <div class="step-item"><p><strong>If approved, Alan will create a Pull Request (PR)</strong> from your branch to <code>staging</code> first for a final check, then to <code>demo</code>.</p></div>
+        <div class="step-item"><p><strong>Once merged to <code>demo</code>,</strong> your changes are live on the investor-facing site.</p></div>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">Do NOT merge your own Pull Requests</div>
+        Even if GitHub lets you click the Merge button, <strong>do not do it</strong>. All merges to <code>staging</code> and <code>demo</code> go through Alan or the designated tech lead to prevent breaking the live site.
+      </div>
+
+      <h2 id="troubleshooting"><span class="section-number">5.</span> Troubleshooting</h2>
+      <p>Here are the most common problems and exactly how to fix them. For a complete list, see the <a href="troubleshooting.html">Troubleshooting Guide</a>.</p>
+
+      <h3>"Access Denied" on the app</h3>
+      <ul>
+        <li>Make sure you are signed in at <code>dev-agents.elevation.com</code> with your <code>@elevationai.com</code> account.</li>
+        <li>Check that your cookies are set correctly (see <a href="#step-e">Section 2, Step E</a>).</li>
+        <li>Try opening the site in an <strong>Incognito / Private</strong> window and signing in fresh.</li>
+        <li>Clear your browser cookies for the site and redo the cookie setup.</li>
+        <li>If none of this works, message Alan. Jay may need to add your preview URL to the backend.</li>
+      </ul>
+
+      <h3>"Merge conflict" error when pulling</h3>
+      <p>This means someone else changed the same file you changed. <strong>Do not try to fix this yourself.</strong></p>
+      <ul>
+        <li>Take a screenshot of the error.</li>
+        <li>Message Alan on Slack with the screenshot.</li>
+        <li>Alan will help resolve the conflict or do it for you.</li>
+      </ul>
+
+      <h3>"Does not have contributing access" on Vercel</h3>
+      <p>This means your Vercel account is not properly linked to the Elevation AI team.</p>
+      <ul>
+        <li>Go to <code>vercel.com</code> and check if you see "Elevation AI" in the top-left team dropdown.</li>
+        <li>If you do not see it, message Alan to resend the team invite.</li>
+        <li>Accept the invite from your email and try pushing again.</li>
+      </ul>
+
+      <h3>My preview URL shows old content</h3>
+      <ul>
+        <li>Wait 2&ndash;3 minutes. Vercel takes time to rebuild after each push.</li>
+        <li>Hard-refresh your browser: <code>Ctrl+Shift+R</code> (Windows) or <code>Cmd+Shift+R</code> (Mac).</li>
+        <li>Check Vercel's dashboard to see if the build is still running or if it failed.</li>
+      </ul>
+
+      <h3>I accidentally pushed to the wrong branch</h3>
+      <p><strong>Do not panic.</strong> Message Alan immediately with which branch you pushed to and what changes you made. This is fixable.</p>
+
+      <h2 id="quick-ref"><span class="section-number">6.</span> Quick Reference</h2>
+      <p>Bookmark this page or keep it open. These are the commands and checks you need every day.</p>
+
+      <h3>Daily checklist</h3>
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>When</th><th>What to Do</th><th>How</th></tr></thead>
+          <tbody>
+            <tr><td>Before starting work</td><td>Sync your branch</td><td><code>git pull origin staging</code></td></tr>
+            <tr><td>After making changes</td><td>Save your files</td><td><code>Ctrl+S</code> / <code>Cmd+S</code></td></tr>
+            <tr><td>Ready to preview</td><td>Push to GitHub</td><td>Source Control panel &rarr; Commit &rarr; Push</td></tr>
+            <tr><td>After pushing</td><td>Check your preview URL</td><td>Go to your Vercel preview URL and refresh</td></tr>
+            <tr><td>Changes look good</td><td>Request a merge</td><td>Message Alan on Slack</td></tr>
+            <tr><td>Something broke</td><td>Don't panic</td><td>Message Alan with a screenshot</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Key URLs</h3>
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Resource</th><th>URL</th></tr></thead>
+          <tbody>
+            <tr><td>GitHub Repo</td><td><code>github.com/elevation-ai/ei-v2-redesign</code> (confirm with Alan)</td></tr>
+            <tr><td>Vercel Dashboard</td><td><code>vercel.com</code> &rarr; Elevation AI team &rarr; EI V2 Redesign</td></tr>
+            <tr><td>Auth / Login</td><td><code>dev-agents.elevation.com</code></td></tr>
+            <tr><td>Your Preview URL</td><td>Alan will share individually &mdash; bookmark it</td></tr>
+            <tr><td>Live Demo Site</td><td><code>demo.elevation.com</code> (once DNS is configured by Sachin)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Terminal command cheat sheet</h3>
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Action</th><th>Command</th></tr></thead>
+          <tbody>
+            <tr><td>See which branch you are on</td><td><code>git branch</code></td></tr>
+            <tr><td>Switch to your branch</td><td><code>git checkout dev-[yourname]</code></td></tr>
+            <tr><td>Pull latest from staging</td><td><code>git pull origin staging</code></td></tr>
+            <tr><td>Stage all changes</td><td><code>git add .</code></td></tr>
+            <tr><td>Commit with a message</td><td><code>git commit -m "your message"</code></td></tr>
+            <tr><td>Push to GitHub</td><td><code>git push</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr />
+      <h3>Questions?</h3>
+      <p>If anything in this guide is unclear or you run into a problem not covered here, message Alan on Slack in the <strong>#ws-apps</strong> channel. Include a screenshot whenever possible &mdash; it makes debugging 10x faster.</p>
+      <p style="color: var(--text-tertiary); font-style: italic;">This is a living document. As our workflow improves (especially once Jay completes the auth update), this guide will be updated and re-shared.</p>
+
+      <div class="doc-footer">
+        Confidential &mdash; Elevation AI &mdash; Last updated March 30, 2026
+      </div>
+
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+</body>
+</html>

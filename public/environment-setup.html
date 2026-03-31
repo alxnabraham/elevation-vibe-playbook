@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Environment Setup — Elevation AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-mark">E</span>
+      Elevation AI
+    </a>
+    <span class="divider">/</span>
+    <span class="doc-title">Environment Setup</span>
+    <div class="header-right">
+      <span class="badge badge--internal">Internal</span>
+      <span class="badge badge--updated">Updated Mar 30, 2026</span>
+    </div>
+  </header>
+
+  <nav class="sidebar" id="sidebar">
+    <div class="cross-nav">
+      <span class="cross-nav-label">All Guides</span>
+      <a href="git-workflow.html">&#x1F504; Git + Vercel Workflow</a>
+      <a href="ai-development.html">&#x1F916; AI-Assisted Development</a>
+      <a href="environment-setup.html" class="current-page">&#x2699;&#xFE0F; Environment Setup</a>
+      <a href="starter-kit.html">&#x1F4E6; Starter Kit &amp; Design System</a>
+      <a href="troubleshooting.html">&#x1F527; Troubleshooting</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Prerequisites</span>
+      <a href="#prerequisites" data-section="prerequisites"><span class="nav-icon">&#x1F4E5;</span> Install Tools</a>
+      <div class="sub-links">
+        <a href="#install-node">Node.js</a>
+        <a href="#install-vscode">VS Code / Cursor / Windsurf</a>
+        <a href="#install-git">Git</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Project Setup</span>
+      <a href="#clone-project" data-section="clone-project"><span class="nav-icon">&#x1F4C2;</span> Clone the Project</a>
+      <a href="#env-vars" data-section="env-vars"><span class="nav-icon">&#x1F511;</span> Environment Variables</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Authentication</span>
+      <a href="#auth-cookies" data-section="auth-cookies"><span class="nav-icon">&#x1F36A;</span> Cookie Setup</a>
+      <a href="#console-method" data-section="console-method"><span class="nav-icon">&#x1F4BB;</span> Console Method</a>
+    </div>
+    <div class="sidebar-section">
+      <a href="#vercel-access" data-section="vercel-access"><span class="nav-icon">&#x25B2;</span> Vercel Access</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content-wrapper">
+
+      <h1>Environment Setup</h1>
+      <p class="page-description">
+        One-time setup for your development environment. This covers installing tools, cloning the project, configuring environment variables, and setting up authentication. Takes about 15&ndash;20 minutes.
+      </p>
+
+      <div class="callout callout--info">
+        <div class="callout-title">You only need to do this once</div>
+        After completing these steps, jump to the <a href="git-workflow.html#daily-workflow" style="color: inherit; text-decoration: underline;">Daily Workflow</a> for your everyday process.
+      </div>
+
+      <!-- ══════════ PREREQUISITES ══════════ -->
+      <h2 id="prerequisites"><span class="section-number">1.</span> Install Required Tools</h2>
+
+      <h3 id="install-node">Node.js</h3>
+      <p>Node.js runs JavaScript on your computer. The project needs it to work.</p>
+      <div class="steps">
+        <div class="step-item"><p>Download the <strong>LTS version</strong> from <code>nodejs.org</code>.</p></div>
+        <div class="step-item"><p>Run the installer. Click <strong>Next</strong> on each screen &mdash; the defaults are fine.</p></div>
+        <div class="step-item">
+          <p>Verify it works. Open a terminal and run:</p>
+          <pre><code>node --version
+npm --version</code></pre>
+          <p>You should see version numbers like <code>v20.x.x</code> and <code>10.x.x</code>.</p>
+        </div>
+      </div>
+
+      <h3 id="install-vscode">VS Code (or Cursor / Windsurf)</h3>
+      <p>VS Code is our primary code editor. Cursor and Windsurf are VS Code forks that work identically.</p>
+      <div class="steps">
+        <div class="step-item"><p>Download VS Code from <code>code.visualstudio.com</code>.</p></div>
+        <div class="step-item"><p>Install and open it.</p></div>
+        <div class="step-item">
+          <p>Install these recommended extensions:</p>
+          <ul>
+            <li><strong>GitHub Copilot</strong> &mdash; AI-assisted coding</li>
+            <li><strong>ES7+ React/Redux/React-Native snippets</strong> &mdash; React autocomplete</li>
+            <li><strong>Prettier</strong> &mdash; code formatting</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">GitHub Copilot access</div>
+        You need an active GitHub Copilot subscription. If your account does not have Copilot enabled through the organization, contact your GitHub org admin.
+      </div>
+
+      <h3 id="install-git">Git</h3>
+      <p>Git tracks file changes and lets you download code from GitHub.</p>
+
+      <p><strong>Windows:</strong> Download from <code>git-scm.com/downloads/win</code>. Choose the 64-bit installer and click <strong>Next</strong> through each screen.</p>
+
+      <p><strong>Mac:</strong> Open a terminal in VS Code and run:</p>
+      <pre><code>xcode-select --install</code></pre>
+      <p>Click <strong>Install</strong> and wait. If you see "already installed", Git is ready.</p>
+
+      <p><strong>Verify:</strong></p>
+      <pre><code>git --version</code></pre>
+      <p>You should see <code>git version 2.x.x</code>. Restart VS Code after installing Git.</p>
+
+      <!-- ══════════ CLONE PROJECT ══════════ -->
+      <h2 id="clone-project"><span class="section-number">2.</span> Clone the Project</h2>
+      <p>This downloads the project code to your computer.</p>
+
+      <div class="steps">
+        <div class="step-item"><p>Open <strong>VS Code</strong>.</p></div>
+        <div class="step-item"><p>Press <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (Mac) to open the Command Palette.</p></div>
+        <div class="step-item"><p>Type <code>Git: Clone</code> and select it.</p></div>
+        <div class="step-item"><p>Paste the repo URL from the Slack <strong>#ws-apps</strong> channel.</p></div>
+        <div class="step-item"><p>Choose a save location (Documents or Desktop).</p></div>
+        <div class="step-item"><p>Click <strong>Open</strong> when prompted.</p></div>
+        <div class="step-item">
+          <p>Install dependencies. Open the terminal and run:</p>
+          <pre><code>npm install</code></pre>
+        </div>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">Getting "Unauthorized" or "Access Denied"?</div>
+        Your GitHub account does not have repository access yet. Message Alan on Slack to get added to the Elevation AI organization.
+      </div>
+
+      <!-- ══════════ ENV VARS ══════════ -->
+      <h2 id="env-vars"><span class="section-number">3.</span> Environment Variables</h2>
+      <p>The project needs configuration to connect to our backend services.</p>
+
+      <div class="steps">
+        <div class="step-item"><p>In the Slack <strong>#ws-apps</strong> channel, find the pinned message with the environment variables.</p></div>
+        <div class="step-item"><p>In the project root, create a new file called <code>.env.local</code> (note the dot at the beginning).</p></div>
+        <div class="step-item"><p>Copy and paste the contents from Slack into this file and save.</p></div>
+      </div>
+
+      <h3>Environment Variable Reference</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Variable</th><th>Description</th><th>Required</th></tr></thead>
+          <tbody>
+            <tr><td><code>AUTH_API_URL</code></td><td>Platform API URL for authentication</td><td>Yes</td></tr>
+            <tr><td><code>AUTH_API_VERSION</code></td><td>API version header</td><td>No</td></tr>
+            <tr><td><code>JWT_TOKEN</code></td><td>Cookie name for auth token</td><td>No</td></tr>
+            <tr><td><code>USER_META</code></td><td>Cookie name for user info</td><td>No</td></tr>
+            <tr><td><code>ALLOWED_PARENT_DOMAINS</code></td><td>Domains allowed to embed the app</td><td>No</td></tr>
+            <tr><td><code>EMBEDDED_MODE_ONLY</code></td><td>If true, app only works in an iframe</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--danger">
+        <div class="callout-title">Never commit .env files</div>
+        <code>.env.local</code> contains private keys. It is already in <code>.gitignore</code> but do not rename it or share it outside the team.
+      </div>
+
+      <!-- ══════════ AUTH COOKIES ══════════ -->
+      <h2 id="auth-cookies"><span class="section-number">4.</span> Authentication &mdash; Cookie Setup</h2>
+      <p>Our app uses cookie-based authentication. You need to copy auth cookies from the platform to your development environment.</p>
+
+      <h3>Choose your environment</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Environment</th><th>URL</th><th>Auth Cookie</th><th>User Cookie</th></tr></thead>
+          <tbody>
+            <tr><td>Development</td><td><code>devagents.elevationai.com</code></td><td><code>elevationai-dev-auth</code></td><td><code>elevationai-dev-user</code></td></tr>
+            <tr><td>Staging</td><td><code>stagagents.elevationai.com</code></td><td><code>elevationai-stag-auth</code></td><td><code>elevationai-stag-user</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Copy cookies to your preview URL</h3>
+      <div class="steps">
+        <div class="step-item"><p>Open your browser and go to the platform URL (e.g., <code>devagents.elevationai.com</code>). Sign in with your <code>@elevationai.com</code> Google account.</p></div>
+        <div class="step-item"><p>Open Developer Tools: <code>F12</code> or <code>Ctrl + Shift + I</code> (Windows) / <code>Cmd + Option + I</code> (Mac).</p></div>
+        <div class="step-item"><p>Click the <strong>Application</strong> tab, expand <strong>Cookies</strong>, and click the current site.</p></div>
+        <div class="step-item">
+          <p>Find your auth cookies (see table above). For each cookie:</p>
+          <ul>
+            <li>Double-click the <strong>Domain</strong> column</li>
+            <li>Change it to your Vercel preview URL domain (just the domain, no <code>https://</code>)</li>
+            <li>Press Enter to save</li>
+          </ul>
+        </div>
+        <div class="step-item"><p>Open your preview URL in a new tab and refresh. You should see the app.</p></div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">For localhost development</div>
+        If working locally, change the cookie domain to <code>localhost</code> instead of the Vercel URL. The cookie may disappear from the original domain tab &mdash; that is expected. It moved to localhost.
+      </div>
+
+      <!-- ══════════ CONSOLE METHOD ══════════ -->
+      <h2 id="console-method"><span class="section-number">5.</span> Alternative: Console Method</h2>
+      <p>If the cookie domain edit does not work, you can set cookies via the browser console.</p>
+
+      <div class="steps">
+        <div class="step-item"><p>Sign in to the platform and copy the <strong>Value</strong> of each auth cookie from the Application tab.</p></div>
+        <div class="step-item"><p>Open your target URL (localhost or preview URL) in a new tab.</p></div>
+        <div class="step-item">
+          <p>Open Developer Tools, go to <strong>Console</strong>, and run:</p>
+          <pre><code>document.cookie = "elevationai-dev-auth=YOUR_AUTH_VALUE; path=/; domain=localhost";
+document.cookie = "elevationai-dev-user=YOUR_USER_VALUE; path=/; domain=localhost";</code></pre>
+          <p>Replace <code>YOUR_AUTH_VALUE</code> and <code>YOUR_USER_VALUE</code> with the actual cookie values. For Vercel preview URLs, replace <code>localhost</code> with the preview domain.</p>
+        </div>
+        <div class="step-item"><p>Refresh the page.</p></div>
+      </div>
+
+      <!-- ══════════ VERCEL ACCESS ══════════ -->
+      <h2 id="vercel-access"><span class="section-number">6.</span> Vercel Team Access</h2>
+      <p>You need to be a member of the Elevation AI team on Vercel to see preview deployments.</p>
+
+      <div class="steps">
+        <div class="step-item"><p>Alan will send you an invite via email. Accept it.</p></div>
+        <div class="step-item"><p>Go to <code>vercel.com</code> and check the top-left dropdown. You should see <strong>Elevation AI</strong> listed.</p></div>
+        <div class="step-item"><p>Click on the <strong>EI V2 Redesign</strong> project. You should see active branches and preview URLs.</p></div>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">Vercel account must match your GitHub account</div>
+        If you signed up for Vercel with a different email than your GitHub account, you may see "does not have contributing access" errors when pushing. Make sure your Vercel account is linked to the same GitHub identity that has access to the repo.
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">Jay is setting up per-branch auth (ETA: March 31)</div>
+        Once complete, each person's Vercel preview URL will authenticate automatically. The cookie setup step will no longer be needed. Alan will notify everyone in <strong>#ws-apps</strong>.
+      </div>
+
+      <hr />
+
+      <h3>You are set up!</h3>
+      <p>Head to the <a href="git-workflow.html#daily-workflow">Daily Workflow</a> to start making changes, or check the <a href="ai-development.html">AI-Assisted Development Guide</a> if you are using an AI coding assistant.</p>
+
+      <div class="doc-footer">
+        Confidential &mdash; Elevation AI &mdash; Last updated March 30, 2026
+      </div>
+
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+</body>
+</html>

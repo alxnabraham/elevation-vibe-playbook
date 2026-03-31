@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Documentation — Elevation AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-mark">E</span>
+      Elevation AI
+    </a>
+    <span class="divider">/</span>
+    <span class="doc-title">Developer Docs</span>
+    <div class="header-right">
+      <span class="badge badge--internal">Internal</span>
+      <span class="badge badge--updated">Updated Mar 30, 2026</span>
+    </div>
+  </header>
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Guides</span>
+      <a href="git-workflow.html"><span class="nav-icon">&#x1F504;</span> Git + Vercel Workflow</a>
+      <a href="ai-development.html"><span class="nav-icon">&#x1F916;</span> AI-Assisted Development</a>
+      <a href="environment-setup.html"><span class="nav-icon">&#x2699;&#xFE0F;</span> Environment Setup</a>
+      <a href="starter-kit.html"><span class="nav-icon">&#x1F4E6;</span> Starter Kit &amp; Design System</a>
+      <a href="troubleshooting.html"><span class="nav-icon">&#x1F527;</span> Troubleshooting</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">On This Page</span>
+      <a href="#guides" data-section="guides"><span class="nav-icon">&#x1F4D6;</span> All Guides</a>
+      <a href="#quick-links" data-section="quick-links"><span class="nav-icon">&#x1F517;</span> Quick Links</a>
+      <a href="#branch-structure" data-section="branch-structure"><span class="nav-icon">&#x1F500;</span> Branch Structure</a>
+      <a href="#daily-checklist" data-section="daily-checklist"><span class="nav-icon">&#x2705;</span> Daily Checklist</a>
+      <a href="#team" data-section="team"><span class="nav-icon">&#x1F465;</span> Team &amp; Contacts</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content-wrapper">
+
+      <h1>Elevation AI Developer Docs</h1>
+      <p class="page-description">
+        Everything the EI V2 Redesign team needs &mdash; Git workflows, AI-assisted development, environment setup, and platform reference. Built for engineers who ship with AI.
+      </p>
+
+      <div class="callout callout--info">
+        <div class="callout-title">New here?</div>
+        Start with the <a href="environment-setup.html" style="color: inherit; text-decoration: underline;">Environment Setup</a> guide, then read <a href="git-workflow.html" style="color: inherit; text-decoration: underline;">Git + Vercel Workflow</a> for your daily process.
+      </div>
+
+      <!-- ══════════ GUIDES ══════════ -->
+      <h2 id="guides"><span class="section-number">1.</span> All Guides</h2>
+
+      <div class="page-cards">
+
+        <a href="git-workflow.html" class="page-card">
+          <span class="card-icon">&#x1F504;</span>
+          <span class="card-title">Git + Vercel Workflow</span>
+          <span class="card-desc">Daily workflow for making changes, pushing to GitHub, and previewing on Vercel. Branch structure, syncing, and merge process.</span>
+          <span class="card-arrow">Read guide &rarr;</span>
+        </a>
+
+        <a href="ai-development.html" class="page-card">
+          <span class="card-icon">&#x1F916;</span>
+          <span class="card-title">AI-Assisted Development</span>
+          <span class="card-desc">How to sync your branch before AI sessions, work with Copilot, Cursor, Claude Code, and Windsurf, and review AI-generated changes.</span>
+          <span class="card-arrow">Read guide &rarr;</span>
+        </a>
+
+        <a href="environment-setup.html" class="page-card">
+          <span class="card-icon">&#x2699;&#xFE0F;</span>
+          <span class="card-title">Environment Setup</span>
+          <span class="card-desc">One-time setup for Node.js, VS Code, Git, environment variables, authentication cookies, and Vercel team access.</span>
+          <span class="card-arrow">Read guide &rarr;</span>
+        </a>
+
+        <a href="starter-kit.html" class="page-card">
+          <span class="card-icon">&#x1F4E6;</span>
+          <span class="card-title">Starter Kit &amp; Design System</span>
+          <span class="card-desc">Platform structure, design tokens, available components, typography, and how to extend the EI V2 codebase.</span>
+          <span class="card-arrow">Read guide &rarr;</span>
+        </a>
+
+        <a href="troubleshooting.html" class="page-card page-card--full">
+          <span class="card-icon">&#x1F527;</span>
+          <span class="card-title">Troubleshooting</span>
+          <span class="card-desc">Solutions for authentication errors, merge conflicts, Vercel deployment issues, AI assistant problems, and development environment setup.</span>
+          <span class="card-arrow">View all solutions &rarr;</span>
+        </a>
+
+      </div>
+
+      <!-- ══════════ QUICK LINKS ══════════ -->
+      <h2 id="quick-links"><span class="section-number">2.</span> Quick Links</h2>
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Resource</th><th>URL</th></tr></thead>
+          <tbody>
+            <tr><td>GitHub Repo</td><td><code>github.com/elevation-ai/ei-v2-redesign</code></td></tr>
+            <tr><td>Vercel Dashboard</td><td><code>vercel.com</code> &rarr; Elevation AI team</td></tr>
+            <tr><td>Auth / Login</td><td><code>dev-agents.elevation.com</code></td></tr>
+            <tr><td>Slack Channel</td><td><code>#ws-apps</code></td></tr>
+            <tr><td>Live Demo Site</td><td><code>demo.elevation.com</code> (once DNS is configured)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ══════════ BRANCH STRUCTURE ══════════ -->
+      <h2 id="branch-structure"><span class="section-number">3.</span> Branch Structure</h2>
+      <p>Each person works on their own branch so nobody steps on anyone else's work.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Branch</th><th>Purpose</th><th>Who Touches It</th></tr></thead>
+          <tbody>
+            <tr><td><code>demo</code></td><td>The live product shown to investors and clients.</td><td>Nobody directly &mdash; Alan merges approved changes.</td></tr>
+            <tr><td><code>staging</code></td><td>Testing ground before reaching demo.</td><td>Alan merges reviewed changes.</td></tr>
+            <tr><td><code>dev-sachin</code></td><td>Sachin's workspace</td><td>Sachin only</td></tr>
+            <tr><td><code>dev-kevin</code></td><td>Kevin's workspace</td><td>Kevin only</td></tr>
+            <tr><td><code>dev-chris</code></td><td>Chris's workspace</td><td>Chris only</td></tr>
+            <tr><td><code>dev-hanzel</code></td><td>Hanzel's workspace</td><td>Hanzel only</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--danger">
+        <div class="callout-title">The Golden Rule</div>
+        <strong>NEVER push directly to <code>demo</code> or <code>staging</code>.</strong> Always work on your own <code>dev-[yourname]</code> branch. When ready, message Alan to merge.
+      </div>
+
+      <!-- ══════════ DAILY CHECKLIST ══════════ -->
+      <h2 id="daily-checklist"><span class="section-number">4.</span> Daily Checklist</h2>
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>When</th><th>What to Do</th><th>How</th></tr></thead>
+          <tbody>
+            <tr><td>Before starting work</td><td>Sync your branch</td><td><code>git pull origin staging</code></td></tr>
+            <tr><td>After making changes</td><td>Save your files</td><td><code>Ctrl+S</code> / <code>Cmd+S</code></td></tr>
+            <tr><td>Ready to preview</td><td>Push to GitHub</td><td>Source Control panel &rarr; Commit &rarr; Push</td></tr>
+            <tr><td>After pushing</td><td>Check your preview URL</td><td>Go to your Vercel preview URL and refresh</td></tr>
+            <tr><td>Changes look good</td><td>Request a merge</td><td>Message Alan on Slack</td></tr>
+            <tr><td>Something broke</td><td>Don't panic</td><td>Message Alan with a screenshot</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Terminal command cheat sheet</h3>
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Action</th><th>Command</th></tr></thead>
+          <tbody>
+            <tr><td>See which branch you are on</td><td><code>git branch</code></td></tr>
+            <tr><td>Switch to your branch</td><td><code>git checkout dev-[yourname]</code></td></tr>
+            <tr><td>Pull latest from staging</td><td><code>git pull origin staging</code></td></tr>
+            <tr><td>Stage all changes</td><td><code>git add .</code></td></tr>
+            <tr><td>Commit with a message</td><td><code>git commit -m "your message"</code></td></tr>
+            <tr><td>Push to GitHub</td><td><code>git push</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ══════════ TEAM ══════════ -->
+      <h2 id="team"><span class="section-number">5.</span> Team &amp; Contacts</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Person</th><th>Role</th><th>Contact For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Alan</strong></td><td>PM / DevOps</td><td>Merges, branch issues, access, troubleshooting</td></tr>
+            <tr><td><strong>Jay</strong></td><td>Backend</td><td>Auth setup, backend API, preview URL whitelisting</td></tr>
+            <tr><td><strong>Sachin</strong></td><td>Founder / Dev</td><td>Product direction, DNS, demo priorities</td></tr>
+            <tr><td><strong>Chris</strong></td><td>Design / Dev</td><td>UI design, Vercel setup, front-end patterns</td></tr>
+            <tr><td><strong>Hanzel</strong></td><td>Dev</td><td>Feature development, calendar app</td></tr>
+            <tr><td><strong>Kevin</strong></td><td>Dev</td><td>Deal center, portfolio views</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>All communication goes through the <strong>#ws-apps</strong> Slack channel. Include screenshots when reporting issues.</p>
+
+      <hr />
+
+      <p style="color: var(--text-tertiary); font-style: italic;">
+        This is a living document. As our workflow improves, these guides will be updated and re-shared.
+      </p>
+
+      <div class="doc-footer">
+        Confidential &mdash; Elevation AI &mdash; Last updated March 30, 2026
+      </div>
+
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+</body>
+</html>

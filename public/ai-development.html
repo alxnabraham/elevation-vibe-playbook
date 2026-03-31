@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Assisted Development — Elevation AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-mark">E</span>
+      Elevation AI
+    </a>
+    <span class="divider">/</span>
+    <span class="doc-title">AI-Assisted Development</span>
+    <div class="header-right">
+      <span class="badge badge--internal">Internal</span>
+      <span class="badge badge--updated">Updated Mar 30, 2026</span>
+    </div>
+  </header>
+
+  <nav class="sidebar" id="sidebar">
+    <div class="cross-nav">
+      <span class="cross-nav-label">All Guides</span>
+      <a href="git-workflow.html">&#x1F504; Git + Vercel Workflow</a>
+      <a href="ai-development.html" class="current-page">&#x1F916; AI-Assisted Development</a>
+      <a href="environment-setup.html">&#x2699;&#xFE0F; Environment Setup</a>
+      <a href="starter-kit.html">&#x1F4E6; Starter Kit &amp; Design System</a>
+      <a href="troubleshooting.html">&#x1F527; Troubleshooting</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Overview</span>
+      <a href="#why-this-matters" data-section="why-this-matters"><span class="nav-icon">&#x26A0;&#xFE0F;</span> Why This Matters</a>
+      <a href="#the-cycle" data-section="the-cycle"><span class="nav-icon">&#x1F504;</span> The Complete Cycle</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Workflow</span>
+      <a href="#before-ai-session" data-section="before-ai-session"><span class="nav-icon">1&#xFE0F;&#x20E3;</span> Before Every Session</a>
+      <a href="#working-with-tools" data-section="working-with-tools"><span class="nav-icon">2&#xFE0F;&#x20E3;</span> Working with AI Tools</a>
+      <a href="#after-ai-finishes" data-section="after-ai-finishes"><span class="nav-icon">3&#xFE0F;&#x20E3;</span> After the AI Finishes</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Reference</span>
+      <a href="#ai-agent-setup" data-section="ai-agent-setup"><span class="nav-icon">&#x1F9E9;</span> Custom Agent Setup</a>
+      <a href="#pitfalls" data-section="pitfalls"><span class="nav-icon">&#x1F6A8;</span> Common Pitfalls</a>
+      <a href="#prompts" data-section="prompts"><span class="nav-icon">&#x1F4AC;</span> Example Prompts</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content-wrapper">
+
+      <h1>AI-Assisted Development</h1>
+      <p class="page-description">
+        How to keep your branch in sync when using AI coding tools. This guide covers the critical pull-before-coding workflow, tool-specific setup, and how to review AI-generated changes.
+      </p>
+
+      <!-- ══════════ WHY THIS MATTERS ══════════ -->
+      <h2 id="why-this-matters"><span class="section-number">1.</span> Why This Matters</h2>
+
+      <div class="callout callout--danger">
+        <div class="callout-title">The #1 cause of broken builds</div>
+        When an AI assistant works on <strong>stale code</strong> (code that is behind the latest version), it generates changes against an outdated baseline. When you push those changes, they <strong>conflict</strong> with work others have already merged. This wastes everyone's time and can break the demo site.
+      </div>
+
+      <p>AI coding tools like Copilot, Cursor, and Claude Code can modify <strong>dozens of files</strong> in a single session. If your branch is out of date, every one of those changes is a potential conflict. The fix is simple: <strong>always sync before you start</strong>.</p>
+
+      <!-- ══════════ THE CYCLE ══════════ -->
+      <h2 id="the-cycle"><span class="section-number">2.</span> The Complete AI Development Cycle</h2>
+
+      <p>Every AI coding session should follow this flow:</p>
+
+      <div class="flow">
+        <div class="flow-step flow-step--accent">Pull latest from staging</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Start AI session</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Review all changes</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Commit &amp; Push</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Check preview URL</div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Step</th><th>Command / Action</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Sync branch</td><td><code>git pull origin staging</code></td><td>Get latest approved code so AI works on current codebase</td></tr>
+            <tr><td>Start AI session</td><td>Open Copilot / Cursor / Claude / Windsurf</td><td>Begin AI-assisted work on up-to-date code</td></tr>
+            <tr><td>Review changes</td><td>Source Control panel or <code>git diff</code></td><td>Verify AI did what you asked and nothing unexpected</td></tr>
+            <tr><td>Commit</td><td><code>git add . &amp;&amp; git commit -m "message"</code></td><td>Save your changes locally with a description</td></tr>
+            <tr><td>Push</td><td><code>git push</code></td><td>Send to GitHub and trigger Vercel build</td></tr>
+            <tr><td>Verify</td><td>Check preview URL</td><td>Confirm changes work on the live preview</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ══════════ BEFORE EVERY SESSION ══════════ -->
+      <h2 id="before-ai-session"><span class="section-number">3.</span> Before Every AI Session</h2>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">Do this EVERY time &mdash; no exceptions</div>
+        This is the same Step 1 from the <a href="git-workflow.html#wf-step-1" style="color: inherit; text-decoration: underline;">Daily Workflow guide</a>. It applies every time, but is <strong>especially critical</strong> before handing control to an AI tool that may change many files at once.
+      </div>
+
+      <div class="steps">
+        <div class="step-item">
+          <p><strong>Open VS Code / Cursor / Windsurf</strong> and confirm you are on your <code>dev-[yourname]</code> branch.</p>
+          <p>Check the <strong>bottom-left corner</strong> of the editor. If it says <code>demo</code> or <code>staging</code>, switch to your branch first.</p>
+        </div>
+        <div class="step-item">
+          <p><strong>Open the terminal</strong> and run:</p>
+          <pre><code>git pull origin staging</code></pre>
+          <p>This downloads all the latest approved code from the <code>staging</code> branch and merges it into your branch.</p>
+        </div>
+        <div class="step-item">
+          <p><strong>Check for errors.</strong> If you see a "merge conflict" message, <strong>stop immediately</strong> and message Alan on Slack with a screenshot. Do NOT start an AI session with unresolved conflicts.</p>
+        </div>
+        <div class="step-item">
+          <p><strong>Now start your AI session.</strong> Your code is up to date and safe to work on.</p>
+        </div>
+      </div>
+
+      <div class="callout callout--success">
+        <div class="callout-title">Quick check</div>
+        If <code>git pull origin staging</code> says "Already up to date." &mdash; you are good to go. If it shows a list of file changes &mdash; that means new code was downloaded, and you are now current.
+      </div>
+
+      <!-- ══════════ WORKING WITH TOOLS ══════════ -->
+      <h2 id="working-with-tools"><span class="section-number">4.</span> Working with Specific AI Tools</h2>
+
+      <p>Each tool works slightly differently, but the sync workflow is the same for all of them. Here is how to use each one.</p>
+
+      <div class="tool-card">
+        <h4>GitHub Copilot (in VS Code)</h4>
+        <p>Copilot is built into VS Code and has an <strong>Agent mode</strong> that can create and edit files for you.</p>
+        <ul>
+          <li>Open Copilot Chat: <code>Ctrl + Alt + I</code> (Windows) or <code>Cmd + Option + I</code> (Mac)</li>
+          <li>Set the chat mode to <strong>Agent</strong> for multi-file changes</li>
+          <li>For best results, select <strong>Claude Sonnet 4.5</strong> or <strong>Claude Sonnet 4.6</strong> in the model picker, or leave it on <strong>Auto</strong></li>
+          <li>If using the ElevationAI custom agent, select <strong>elevationai-app</strong> in the agent picker (see <a href="#ai-agent-setup">Custom Agent Setup</a>)</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <h4>Cursor</h4>
+        <p>Cursor is a VS Code fork with built-in AI capabilities.</p>
+        <ul>
+          <li>Use <strong>Composer</strong> or <strong>Agent mode</strong> for multi-file changes</li>
+          <li>Git commands work identically to VS Code &mdash; same terminal, same Source Control panel</li>
+          <li>Always pull before starting a Composer session</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <h4>Claude Code (CLI)</h4>
+        <p>Claude Code runs in the terminal as a command-line assistant.</p>
+        <ul>
+          <li>Open your terminal and navigate to the project directory</li>
+          <li>Run <code>git pull origin staging</code> <strong>before</strong> starting a <code>claude</code> session</li>
+          <li>Claude Code can run git commands, but pull manually first to verify no conflicts exist</li>
+          <li>When done, review changes with <code>git diff</code> before pushing</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <h4>Windsurf</h4>
+        <p>Windsurf is another VS Code-based editor with AI integration.</p>
+        <ul>
+          <li>Use <strong>Cascade</strong> or <strong>Agent mode</strong> for complex tasks</li>
+          <li>Same Git workflow as VS Code &mdash; pull first, push after</li>
+          <li>Check bottom-left for branch name before starting</li>
+        </ul>
+      </div>
+
+      <!-- ══════════ AFTER THE AI FINISHES ══════════ -->
+      <h2 id="after-ai-finishes"><span class="section-number">5.</span> After the AI Finishes</h2>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">Always review before pushing</div>
+        AI assistants sometimes modify files you did not ask them to change. <strong>Always review the full list of changed files</strong> in the Source Control panel before committing.
+      </div>
+
+      <div class="steps">
+        <div class="step-item">
+          <p><strong>Review all changed files.</strong> Click the Source Control icon (<code>Ctrl+Shift+G</code> / <code>Cmd+Shift+G</code>) and look through every file that was modified. Watch for:</p>
+          <ul>
+            <li>Files you did not expect to be changed</li>
+            <li>Changes to <code>package.json</code> or <code>package-lock.json</code> (the AI may have added unnecessary packages)</li>
+            <li>Changes to <code>.env</code> or any config files</li>
+          </ul>
+        </div>
+        <div class="step-item">
+          <p><strong>Test your changes.</strong> If you can run the app locally, start the dev server and check that things work:</p>
+          <pre><code>npm run dev</code></pre>
+          <p>If local development is not set up, you can push and check the Vercel preview instead.</p>
+        </div>
+        <div class="step-item">
+          <p><strong>Commit with a clear message.</strong> Describe what you (or the AI) changed:</p>
+          <pre><code>git add .
+git commit -m "Updated calendar layout and fixed sidebar spacing"
+git push</code></pre>
+        </div>
+        <div class="step-item">
+          <p><strong>Check your preview URL.</strong> Wait 1&ndash;3 minutes for Vercel to rebuild, then refresh your preview URL to verify the changes look correct.</p>
+        </div>
+      </div>
+
+      <!-- ══════════ CUSTOM AGENT SETUP ══════════ -->
+      <h2 id="ai-agent-setup"><span class="section-number">6.</span> Custom Agent Setup (Copilot)</h2>
+
+      <p>We have a custom ElevationAI agent for GitHub Copilot that enforces our framework rules, design system, and code patterns. Setting it up takes 2 minutes and makes Copilot generate much better code.</p>
+
+      <div class="steps">
+        <div class="step-item">
+          <p><strong>Create the agent file.</strong> In your project root, create the folder <code>.github/agents/</code> if it does not exist, then create a file called <code>vibeapps.agent.md</code> inside it.</p>
+          <pre><code>.github/agents/vibeapps.agent.md</code></pre>
+        </div>
+        <div class="step-item">
+          <p><strong>Download the agent content.</strong> Get the latest agent file from the team docs and paste it into <code>vibeapps.agent.md</code>. Save the file.</p>
+        </div>
+        <div class="step-item">
+          <p><strong>Select the agent in Copilot Chat.</strong> Open Copilot Chat, set mode to <strong>Agent</strong>, and choose <strong>elevationai-app</strong> from the agent picker.</p>
+        </div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">What does the custom agent do?</div>
+        It pre-loads framework rules, protected files, tech stack constraints (Next.js, React, Tailwind, Supabase), API conventions, security requirements, and design system tokens. This means Copilot generates code that fits our codebase instead of generic code.
+      </div>
+
+      <!-- ══════════ COMMON PITFALLS ══════════ -->
+      <h2 id="pitfalls"><span class="section-number">7.</span> Common AI Pitfalls</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Problem</th><th>What Happened</th><th>How to Fix</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Merge conflicts after pushing</strong></td>
+              <td>You forgot to pull before the AI session</td>
+              <td>Message Alan. Next time, always run <code>git pull origin staging</code> first.</td>
+            </tr>
+            <tr>
+              <td><strong>AI modified unexpected files</strong></td>
+              <td>AI tools sometimes "fix" things you did not ask about</td>
+              <td>Review Source Control panel. Revert unwanted changes by right-clicking a file &rarr; <strong>Discard Changes</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>AI changed <code>package.json</code></strong></td>
+              <td>AI added packages that are not needed or changed versions</td>
+              <td>Revert with <code>git checkout package.json package-lock.json</code>, then run <code>npm install</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>AI changed environment or config files</strong></td>
+              <td>AI modified <code>.env</code>, <code>next.config</code>, or similar</td>
+              <td>Revert those specific files. Never commit <code>.env</code> files.</td>
+            </tr>
+            <tr>
+              <td><strong>AI created files outside the project</strong></td>
+              <td>Some tools create temp files or files in wrong directories</td>
+              <td>Delete the stray files. They will not deploy.</td>
+            </tr>
+            <tr>
+              <td><strong>Build fails on Vercel after push</strong></td>
+              <td>AI introduced a syntax error or import issue</td>
+              <td>Check the Vercel build log for the error. Ask the AI to fix it, then push again.</td>
+            </tr>
+            <tr>
+              <td><strong>AI made changes on the wrong branch</strong></td>
+              <td>You were on <code>demo</code> or <code>staging</code> instead of your branch</td>
+              <td>Do not panic. Message Alan immediately. Always check bottom-left of VS Code.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ══════════ EXAMPLE PROMPTS ══════════ -->
+      <h2 id="prompts"><span class="section-number">8.</span> Example Prompts for AI Assistants</h2>
+
+      <p>Here are prompts that work well with our codebase. Be specific about what you want.</p>
+
+      <h3>Good prompts</h3>
+      <pre><code>Create a new dashboard page at /dashboard that:
+- Uses the Elevation design system tokens
+- Shows a welcome message with the user's name
+- Displays metrics in cards using the existing MetricsGrid component
+- Uses Tailwind CSS with our theme variables</code></pre>
+
+      <pre><code>Fix the background color on the space dashboard to match
+the theme. Use our CSS variables (--background, --surface)
+instead of hardcoded colors.</code></pre>
+
+      <pre><code>Add a settings page that uses the existing PlatformAppLayout
+shell with sidebar navigation. Follow the pattern in the
+existing workspace page.</code></pre>
+
+      <h3>Tips for better results</h3>
+      <ul>
+        <li><strong>Reference existing code:</strong> Say "follow the pattern in [existing file]" or "similar to the workspace page"</li>
+        <li><strong>Mention the design system:</strong> Say "use Elevation design tokens" or "use our CSS variables"</li>
+        <li><strong>Be specific:</strong> Instead of "make a page", say "create a page at /dashboard that shows X in Y layout"</li>
+        <li><strong>Iterate:</strong> Start simple, then add features: "Now add a search bar" or "Make it responsive"</li>
+        <li><strong>Ask for explanations:</strong> "Explain what this function does" or "Why is this not working?"</li>
+      </ul>
+
+      <hr />
+
+      <h3>Questions?</h3>
+      <p>If you are unsure about any of these steps, message Alan on Slack in the <strong>#ws-apps</strong> channel. When reporting AI-related issues, include:</p>
+      <ul>
+        <li>Which AI tool you were using</li>
+        <li>What you asked it to do</li>
+        <li>A screenshot of the error or unexpected behavior</li>
+      </ul>
+
+      <div class="doc-footer">
+        Confidential &mdash; Elevation AI &mdash; Last updated March 30, 2026
+      </div>
+
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+</body>
+</html>
