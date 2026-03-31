@@ -104,30 +104,14 @@
       <h2 id="ai-tools"><span class="section-number">2.</span> Working with AI Tools</h2>
 
       <div class="tool-card">
-        <h4>GitHub Copilot (in VS Code)</h4>
+        <h4>GitHub Copilot in VS Code</h4>
         <ul>
-          <li>Open Chat: <code>Cmd+Option+I</code> (Mac) or <code>Ctrl+Alt+I</code> (Windows)</li>
+          <li>Open Copilot Chat: <code>Cmd+Option+I</code> (Mac) or <code>Ctrl+Alt+I</code> (Windows)</li>
           <li>Set mode to <strong>Agent</strong> for multi-file changes</li>
           <li>Select <strong>elevationai-app</strong> in the agent picker to use our framework rules</li>
-          <li>Use <strong>Claude Sonnet 4.5/4.6</strong> for best results</li>
-        </ul>
-      </div>
-
-      <div class="tool-card">
-        <h4>Cursor / Windsurf</h4>
-        <ul>
-          <li>Use <strong>Composer</strong> or <strong>Agent/Cascade</strong> mode for multi-file changes</li>
-          <li>Same Git workflow as VS Code &mdash; pull first, push after</li>
-          <li>Same terminal, same Source Control panel</li>
-        </ul>
-      </div>
-
-      <div class="tool-card">
-        <h4>Claude Code (CLI)</h4>
-        <ul>
-          <li>Run <code>git pull origin staging</code> <strong>before</strong> starting a <code>claude</code> session</li>
-          <li>Claude Code can run git commands, but pull manually first to verify no conflicts</li>
-          <li>When done, review changes with <code>git diff</code> before pushing</li>
+          <li>Use <strong>Claude Sonnet 4.5/4.6</strong> in the model picker for best results</li>
+          <li>Describe what you want to build in plain English &mdash; Copilot handles the code</li>
+          <li>When done, tell Copilot: <em>"Push all my changes to GitHub"</em></li>
         </ul>
       </div>
 
