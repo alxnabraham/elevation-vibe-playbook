@@ -82,15 +82,34 @@
           <p><strong>Install dependencies.</strong> Open the terminal (<code>Terminal &rarr; New Terminal</code>) and run:</p>
           <pre><code>npm install</code></pre>
         </div>
-        <div class="step-item">
-          <p><strong>Set up environment variables.</strong> In Slack <strong>#ws-apps</strong>, find the pinned <code>.env.local</code> message. Create a file called <code>.env.local</code> in the project root and paste the contents.</p>
-        </div>
       </div>
 
-      <div class="callout callout--danger">
-        <div class="callout-title">Never commit .env.local</div>
-        This file contains private keys. It is already git-ignored. Do not rename, move, or share it.
+      <div class="callout callout--success">
+        <div class="callout-title">Preview URLs already have env configured</div>
+        Your Vercel preview URL has all environment variables set. Just push code and check your preview &mdash; no local setup needed.
       </div>
+
+      <details style="margin: 0 0 32px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-surface);">
+        <summary style="padding: 14px 20px; font-weight: 600; font-size: 15px; cursor: pointer; color: var(--text-primary); list-style: none; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 12px; color: var(--text-tertiary); transition: transform 180ms;">&#x25B6;</span>
+          Optional: Run locally on localhost
+        </summary>
+        <div style="padding: 0 20px 20px; font-size: 14.5px;">
+          <p>If you want to preview on <code>localhost:3000</code> instead of the Vercel URL, create a <code>.env</code> file in the project root with:</p>
+          <pre><code># Development Environment
+AUTH_API_URL=https://devapi.agentic.elevationai.com
+AUTH_API_VERSION=1.0.0
+JWT_TOKEN=elevationai-dev-auth
+USER_META=elevationai-dev-user
+ALLOWED_PARENT_DOMAINS=http://localhost:3000,https://devagents.elevationai.com
+EMBEDDED_MODE_ONLY=false</code></pre>
+          <p>Then run <code>npm run dev</code> and open <code>http://localhost:3000</code>.</p>
+          <div class="callout callout--warn" style="margin-bottom: 0;">
+            <div class="callout-title">Never commit .env</div>
+            This file contains private keys. It is already git-ignored. If you change <code>.env</code>, restart the dev server (<code>Ctrl+C</code> then <code>npm run dev</code>).
+          </div>
+        </div>
+      </details>
 
       <!-- ══════════ AGENT SETUP ══════════ -->
       <h2 id="agent-setup"><span class="section-number">2.</span> Download the Agent File <span style="font-weight: 400; font-size: 14px; color: var(--text-tertiary);">(one-time)</span></h2>
