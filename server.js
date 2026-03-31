@@ -1,19 +1,20 @@
 const express = require('express');
-const session = require('express-session');
+const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const path = require('path');
 
 const app = express();
 const PORT = 3001;
 
-// Credentials — local preview only, not deployed to Vercel
+// Credentials — override via env vars on Vercel
 const USERNAME = process.env.DOCS_USER || 'elevation';
 const PASSWORD = process.env.DOCS_PASS || 'vibe2026';
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
-// ── Rate limiting (brute force protection) ──────────────────────
-const loginAttempts = new Map(); // IP -> { count, lastAttempt }
+// ── Rate limiting (best-effort — resets per serverless instance) ─
+const loginAttempts = new Map();
 const MAX_ATTEMPTS = 5;
-const LOCKOUT_MS = 15 * 60 * 1000; // 15 minutes
+const LOCKOUT_MS = 15 * 60 * 1000;
 
 function isRateLimited(ip) {
   const record = loginAttempts.get(ip);
@@ -42,20 +43,32 @@ function safeCompare(a, b) {
   const bufA = Buffer.from(a);
   const bufB = Buffer.from(b);
   if (bufA.length !== bufB.length) {
-    // Compare against self to keep constant time, then return false
     crypto.timingSafeEqual(bufA, bufA);
     return false;
   }
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
+// ── Cookie helpers (no cookie-parser dependency) ────────────────
+function parseCookies(header) {
+  const cookies = {};
+  if (!header) return cookies;
+  header.split(';').forEach(function (part) {
+    const eq = part.indexOf('=');
+    if (eq < 0) return;
+    const key = part.substring(0, eq).trim();
+    const val = part.substring(eq + 1).trim();
+    cookies[key] = decodeURIComponent(val);
+  });
+  return cookies;
+}
+
 // ── Middleware ───────────────────────────────────────────────────
 
-// Body parser with size limit (prevent large payload attacks)
 app.use(express.urlencoded({ extended: false, limit: '1kb' }));
 
 // Security headers
-app.use((req, res, next) => {
+app.use(function (req, res, next) {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
@@ -65,239 +78,245 @@ app.use((req, res, next) => {
   next();
 });
 
-// Session with hardened cookie
-app.use(session({
-  secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
-  resave: false,
-  saveUninitialized: false,
-  name: '_eai_sid', // non-default cookie name
-  cookie: {
-    httpOnly: true,    // not accessible via document.cookie in console
-    sameSite: 'lax',   // CSRF protection
-    secure: false,     // set to true if behind HTTPS
-    maxAge: 4 * 60 * 60 * 1000, // 4 hour expiry
-  },
-}));
-
-// Auth middleware
+// Auth middleware — verify JWT from cookie
 function requireAuth(req, res, next) {
-  if (req.path === '/login' || req.session.authenticated) return next();
-  res.redirect('/login');
+  if (req.path === '/login') return next();
+
+  var cookies = parseCookies(req.headers.cookie);
+  var token = cookies._eai_token;
+  if (!token) return res.redirect('/login');
+
+  try {
+    jwt.verify(token, JWT_SECRET);
+    next();
+  } catch (e) {
+    res.redirect('/login');
+  }
 }
 
 // ── Routes ──────────────────────────────────────────────────────
 
-// Login page
-app.get('/login', (req, res) => {
-  const ip = req.ip;
-  const locked = isRateLimited(ip);
-  const showError = req.query.e === '1';
-  const errorHtml = locked
+app.get('/login', function (req, res) {
+  // If already authenticated, redirect to home
+  var cookies = parseCookies(req.headers.cookie);
+  if (cookies._eai_token) {
+    try {
+      jwt.verify(cookies._eai_token, JWT_SECRET);
+      return res.redirect('/');
+    } catch (e) { /* token invalid, show login */ }
+  }
+
+  var ip = req.ip;
+  var locked = isRateLimited(ip);
+  var showError = req.query.e === '1';
+  var errorHtml = locked
     ? '<p class="error">Too many failed attempts. Try again in 15 minutes.</p>'
     : showError
       ? '<p class="error">Invalid username or password.</p>'
       : '';
-  const disabledAttr = locked ? 'disabled' : '';
+  var disabledAttr = locked ? 'disabled' : '';
 
-  res.send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In — Elevation AI Docs</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #FAFAFA;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-    .login-card {
-      background: #fff;
-      border: 1px solid #E4E4E7;
-      border-radius: 12px;
-      padding: 48px 40px 40px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 32px;
-    }
-    .logo-mark {
-      width: 36px; height: 36px;
-      background: #4361EE;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 16px;
-    }
-    .logo-text {
-      font-weight: 700;
-      font-size: 18px;
-      color: #18181B;
-      letter-spacing: -0.01em;
-    }
-    h1 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #18181B;
-      text-align: center;
-      margin-bottom: 6px;
-      letter-spacing: -0.015em;
-    }
-    .subtitle {
-      font-size: 14px;
-      color: #71717A;
-      text-align: center;
-      margin-bottom: 28px;
-    }
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #3F3F46;
-      margin-bottom: 6px;
-    }
-    input {
-      width: 100%;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-family: inherit;
-      border: 1px solid #E4E4E7;
-      border-radius: 8px;
-      outline: none;
-      transition: border-color 180ms ease;
-      margin-bottom: 18px;
-      color: #18181B;
-    }
-    input:focus {
-      border-color: #4361EE;
-      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-    }
-    input:disabled { opacity: 0.5; cursor: not-allowed; }
-    button {
-      width: 100%;
-      padding: 11px 0;
-      font-size: 14px;
-      font-weight: 600;
-      font-family: inherit;
-      background: #4361EE;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 180ms ease;
-    }
-    button:hover { background: #3651D4; }
-    button:disabled { background: #A1A1AA; cursor: not-allowed; }
-    .error {
-      background: #FEF2F2;
-      border: 1px solid #FECACA;
-      color: #991B1B;
-      font-size: 13px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      margin-bottom: 18px;
-      text-align: center;
-    }
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #A1A1AA;
-      margin-top: 24px;
-    }
-  </style>
-</head>
-<body>
-  <div class="login-card">
-    <div class="logo">
-      <span class="logo-mark">E</span>
-      <span class="logo-text">Elevation AI</span>
-    </div>
-    <h1>Sign in to Docs</h1>
-    <p class="subtitle">Internal documentation — authorized access only</p>
-    ${errorHtml}
-    <form method="POST" action="/login">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" autocomplete="username" required autofocus ${disabledAttr} />
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" autocomplete="current-password" required ${disabledAttr} />
-      <button type="submit" ${disabledAttr}>Sign In</button>
-    </form>
-    <p class="footer">Confidential &mdash; Elevation AI</p>
-  </div>
-</body>
-</html>`);
+  res.send('<!DOCTYPE html>\n\
+<html lang="en">\n\
+<head>\n\
+  <meta charset="UTF-8" />\n\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n\
+  <title>Sign In — Elevation AI Docs</title>\n\
+  <link rel="preconnect" href="https://fonts.googleapis.com" />\n\
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n\
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />\n\
+  <style>\n\
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n\
+    body {\n\
+      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;\n\
+      background: #FAFAFA;\n\
+      display: flex;\n\
+      align-items: center;\n\
+      justify-content: center;\n\
+      min-height: 100vh;\n\
+      -webkit-font-smoothing: antialiased;\n\
+    }\n\
+    .login-card {\n\
+      background: #fff;\n\
+      border: 1px solid #E4E4E7;\n\
+      border-radius: 12px;\n\
+      padding: 48px 40px 40px;\n\
+      width: 100%;\n\
+      max-width: 400px;\n\
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);\n\
+    }\n\
+    .logo {\n\
+      display: flex;\n\
+      align-items: center;\n\
+      gap: 10px;\n\
+      justify-content: center;\n\
+      margin-bottom: 32px;\n\
+    }\n\
+    .logo-mark {\n\
+      width: 36px; height: 36px;\n\
+      background: #4361EE;\n\
+      border-radius: 9px;\n\
+      display: flex;\n\
+      align-items: center;\n\
+      justify-content: center;\n\
+      color: #fff;\n\
+      font-weight: 700;\n\
+      font-size: 16px;\n\
+    }\n\
+    .logo-text {\n\
+      font-weight: 700;\n\
+      font-size: 18px;\n\
+      color: #18181B;\n\
+      letter-spacing: -0.01em;\n\
+    }\n\
+    h1 {\n\
+      font-size: 22px;\n\
+      font-weight: 700;\n\
+      color: #18181B;\n\
+      text-align: center;\n\
+      margin-bottom: 6px;\n\
+      letter-spacing: -0.015em;\n\
+    }\n\
+    .subtitle {\n\
+      font-size: 14px;\n\
+      color: #71717A;\n\
+      text-align: center;\n\
+      margin-bottom: 28px;\n\
+    }\n\
+    label {\n\
+      display: block;\n\
+      font-size: 13px;\n\
+      font-weight: 600;\n\
+      color: #3F3F46;\n\
+      margin-bottom: 6px;\n\
+    }\n\
+    input {\n\
+      width: 100%;\n\
+      padding: 10px 14px;\n\
+      font-size: 14px;\n\
+      font-family: inherit;\n\
+      border: 1px solid #E4E4E7;\n\
+      border-radius: 8px;\n\
+      outline: none;\n\
+      transition: border-color 180ms ease;\n\
+      margin-bottom: 18px;\n\
+      color: #18181B;\n\
+    }\n\
+    input:focus {\n\
+      border-color: #4361EE;\n\
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);\n\
+    }\n\
+    input:disabled { opacity: 0.5; cursor: not-allowed; }\n\
+    button {\n\
+      width: 100%;\n\
+      padding: 11px 0;\n\
+      font-size: 14px;\n\
+      font-weight: 600;\n\
+      font-family: inherit;\n\
+      background: #4361EE;\n\
+      color: #fff;\n\
+      border: none;\n\
+      border-radius: 8px;\n\
+      cursor: pointer;\n\
+      transition: background 180ms ease;\n\
+    }\n\
+    button:hover { background: #3651D4; }\n\
+    button:disabled { background: #A1A1AA; cursor: not-allowed; }\n\
+    .error {\n\
+      background: #FEF2F2;\n\
+      border: 1px solid #FECACA;\n\
+      color: #991B1B;\n\
+      font-size: 13px;\n\
+      padding: 10px 14px;\n\
+      border-radius: 8px;\n\
+      margin-bottom: 18px;\n\
+      text-align: center;\n\
+    }\n\
+    .footer {\n\
+      text-align: center;\n\
+      font-size: 12px;\n\
+      color: #A1A1AA;\n\
+      margin-top: 24px;\n\
+    }\n\
+  </style>\n\
+</head>\n\
+<body>\n\
+  <div class="login-card">\n\
+    <div class="logo">\n\
+      <span class="logo-mark">E</span>\n\
+      <span class="logo-text">Elevation AI</span>\n\
+    </div>\n\
+    <h1>Sign in to Docs</h1>\n\
+    <p class="subtitle">Internal documentation — authorized access only</p>\n\
+    ' + errorHtml + '\n\
+    <form method="POST" action="/login">\n\
+      <label for="username">Username</label>\n\
+      <input type="text" id="username" name="username" autocomplete="username" required autofocus ' + disabledAttr + ' />\n\
+      <label for="password">Password</label>\n\
+      <input type="password" id="password" name="password" autocomplete="current-password" required ' + disabledAttr + ' />\n\
+      <button type="submit" ' + disabledAttr + '>Sign In</button>\n\
+    </form>\n\
+    <p class="footer">Confidential &mdash; Elevation AI</p>\n\
+  </div>\n\
+</body>\n\
+</html>');
 });
 
-// Login handler
-app.post('/login', (req, res) => {
-  const ip = req.ip;
+app.post('/login', function (req, res) {
+  var ip = req.ip;
 
-  // Check rate limit
   if (isRateLimited(ip)) {
     return res.redirect('/login?e=1');
   }
 
-  const { username, password } = req.body;
+  var username = req.body.username;
+  var password = req.body.password;
 
-  // Validate input exists and is a string
   if (typeof username !== 'string' || typeof password !== 'string') {
     return res.redirect('/login?e=1');
   }
 
-  // Timing-safe credential comparison
-  const userOk = safeCompare(username, USERNAME);
-  const passOk = safeCompare(password, PASSWORD);
+  var userOk = safeCompare(username, USERNAME);
+  var passOk = safeCompare(password, PASSWORD);
 
   if (userOk && passOk) {
     clearAttempts(ip);
-    // Regenerate session to prevent session fixation
-    req.session.regenerate((err) => {
-      if (err) return res.redirect('/login?e=1');
-      req.session.authenticated = true;
-      res.redirect('/');
+    var token = jwt.sign({ authenticated: true }, JWT_SECRET, { expiresIn: '4h' });
+    res.cookie('_eai_token', token, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.VERCEL === '1',
+      maxAge: 4 * 60 * 60 * 1000,
+      path: '/',
     });
+    res.redirect('/');
   } else {
     recordFailedAttempt(ip);
     res.redirect('/login?e=1');
   }
 });
 
-// Logout
-app.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.clearCookie('_eai_sid');
-    res.redirect('/login');
-  });
+app.get('/logout', function (req, res) {
+  res.clearCookie('_eai_token', { path: '/' });
+  res.redirect('/login');
 });
 
 // Protect all static files
 app.use(requireAuth);
 app.use(express.static(path.join(__dirname, 'public'), {
-  dotfiles: 'deny', // block access to .env, .git, etc.
+  dotfiles: 'deny',
 }));
 
-// Catch-all — no information leakage
-app.use((req, res) => {
+// Catch-all
+app.use(function (req, res) {
   res.status(404).redirect('/login');
 });
 
-app.listen(PORT, () => {
-  console.log(`Elevation AI Docs running at http://localhost:${PORT}`);
-});
+// Local dev: listen on port. Vercel: export the app.
+if (require.main === module) {
+  app.listen(PORT, function () {
+    console.log('Elevation AI Docs running at http://localhost:' + PORT);
+  });
+}
+
+module.exports = app;
