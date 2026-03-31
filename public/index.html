@@ -239,6 +239,37 @@ EMBEDDED_MODE_ONLY=false</code></pre>
         </div>
       </div>
 
+      <details style="margin: 0 0 32px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-surface);">
+        <summary style="padding: 14px 20px; font-weight: 600; font-size: 15px; cursor: pointer; color: var(--text-primary); list-style: none; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 12px; color: var(--text-tertiary); transition: transform 180ms;">&#x25B6;</span>
+          What if I forgot to pull and already started coding?
+        </summary>
+        <div style="padding: 0 20px 20px; font-size: 14.5px;">
+          <p><strong>Don't panic &mdash; your work is safe.</strong> Run <code>git pull origin staging</code> now. Here is what will happen:</p>
+          <div class="table-wrap" style="margin-top: 12px;">
+            <table>
+              <thead><tr><th>Situation</th><th>What Happens</th><th>Your Code</th></tr></thead>
+              <tbody>
+                <tr><td><strong>No overlapping changes</strong></td><td>Pull merges cleanly. Done.</td><td>Safe &mdash; nothing lost</td></tr>
+                <tr><td><strong>Same files were changed</strong></td><td>Git shows a <strong>merge conflict</strong>. Conflicting lines are marked in the files.</td><td>Safe &mdash; your changes are right there alongside staging's changes</td></tr>
+                <tr><td><strong>You have uncommitted changes</strong></td><td>Git <strong>refuses</strong> the pull and says "Your local changes would be overwritten."</td><td>Safe &mdash; commit or stash first, then pull</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top: 16px;"><strong>Bottom line:</strong> <code>git pull</code> never deletes your local work. The worst case is merge conflicts, which are resolvable.</p>
+
+          <h4 style="margin-top: 20px; margin-bottom: 10px; font-size: 15px;">Fixing merge conflicts with Copilot</h4>
+          <p>If you see conflict markers (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>) in your files, open Copilot Chat and say:</p>
+          <pre><code>I have merge conflicts in my code. Help me resolve them.
+Keep my changes but also include the latest updates from staging.</code></pre>
+          <p>Copilot will walk through each conflict and help you pick the right code to keep. After resolving, run:</p>
+          <pre><code>git add .
+git commit -m "Resolved merge conflicts"
+git push</code></pre>
+          <p>If you are not comfortable resolving conflicts, message Admin with a screenshot and they will help.</p>
+        </div>
+      </details>
+
       <!-- Step 2 -->
       <h3 id="step-code">Step 2 &mdash; Code with your AI assistant</h3>
 
