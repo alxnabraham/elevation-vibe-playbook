@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer Documentation — Elevation AI</title>
+  <title>Vibe Coding Playbook — Elevation AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -20,182 +20,321 @@
       Elevation AI
     </a>
     <span class="divider">/</span>
-    <span class="doc-title">Developer Docs</span>
+    <span class="doc-title">Vibe Coding Playbook</span>
     <div class="header-right">
       <span class="badge badge--internal">Internal</span>
-      <span class="badge badge--updated">Updated Mar 30, 2026</span>
+      <span class="badge badge--updated">Updated Mar 31, 2026</span>
     </div>
   </header>
 
   <nav class="sidebar" id="sidebar">
-    <div class="sidebar-section">
-      <span class="sidebar-section-label">Guides</span>
-      <a href="git-workflow.html"><span class="nav-icon">&#x1F504;</span> Git + Vercel Workflow</a>
-      <a href="ai-development.html"><span class="nav-icon">&#x1F916;</span> AI-Assisted Development</a>
-      <a href="environment-setup.html"><span class="nav-icon">&#x2699;&#xFE0F;</span> Environment Setup</a>
-      <a href="starter-kit.html"><span class="nav-icon">&#x1F4E6;</span> Starter Kit &amp; Design System</a>
-      <a href="troubleshooting.html"><span class="nav-icon">&#x1F527;</span> Troubleshooting</a>
+    <div class="cross-nav">
+      <span class="cross-nav-label">Pages</span>
+      <a href="index.html" class="current-page">&#x1F680; Quickstart &amp; Daily Workflow</a>
+      <a href="reference.html">&#x1F4DA; Reference &amp; Troubleshooting</a>
     </div>
     <div class="sidebar-section">
-      <span class="sidebar-section-label">On This Page</span>
-      <a href="#guides" data-section="guides"><span class="nav-icon">&#x1F4D6;</span> All Guides</a>
-      <a href="#quick-links" data-section="quick-links"><span class="nav-icon">&#x1F517;</span> Quick Links</a>
-      <a href="#branch-structure" data-section="branch-structure"><span class="nav-icon">&#x1F500;</span> Branch Structure</a>
-      <a href="#daily-checklist" data-section="daily-checklist"><span class="nav-icon">&#x2705;</span> Daily Checklist</a>
-      <a href="#team" data-section="team"><span class="nav-icon">&#x1F465;</span> Team &amp; Contacts</a>
+      <span class="sidebar-section-label">Setup (One-Time)</span>
+      <a href="#setup" data-section="setup"><span class="nav-icon">1&#xFE0F;&#x20E3;</span> Clone &amp; Install</a>
+      <a href="#agent-setup" data-section="agent-setup"><span class="nav-icon">2&#xFE0F;&#x20E3;</span> Agent File</a>
+      <a href="#your-branch" data-section="your-branch"><span class="nav-icon">3&#xFE0F;&#x20E3;</span> Your Branch &amp; Preview</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Daily Workflow</span>
+      <a href="#daily" data-section="daily"><span class="nav-icon">&#x1F504;</span> The 5-Step Cycle</a>
+      <div class="sub-links">
+        <a href="#step-pull">1. Pull latest</a>
+        <a href="#step-code">2. Code with AI</a>
+        <a href="#step-push">3. Push to your branch</a>
+        <a href="#step-preview">4. Check your preview</a>
+        <a href="#step-sandbox">5. Push to sandbox</a>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Quick Reference</span>
+      <a href="#preview-urls" data-section="preview-urls"><span class="nav-icon">&#x1F517;</span> Preview URLs</a>
+      <a href="#cheatsheet" data-section="cheatsheet"><span class="nav-icon">&#x1F4CB;</span> Command Cheat Sheet</a>
     </div>
   </nav>
 
   <main class="main">
     <div class="content-wrapper">
 
-      <h1>Elevation AI Developer Docs</h1>
+      <h1>Vibe Coding Playbook</h1>
       <p class="page-description">
-        Everything the EI V2 Redesign team needs &mdash; Git workflows, AI-assisted development, environment setup, and platform reference. Built for engineers who ship with AI.
+        Clone, code with AI, push, preview, ship. This is everything you need to start building on the EI V2 platform.
       </p>
 
-      <div class="callout callout--info">
-        <div class="callout-title">New here?</div>
-        Start with the <a href="environment-setup.html" style="color: inherit; text-decoration: underline;">Environment Setup</a> guide, then read <a href="git-workflow.html" style="color: inherit; text-decoration: underline;">Git + Vercel Workflow</a> for your daily process.
-      </div>
+      <!-- ══════════════════════════════════════════
+           SETUP (ONE-TIME)
+           ══════════════════════════════════════════ -->
+      <h2 id="setup"><span class="section-number">1.</span> Clone &amp; Install <span style="font-weight: 400; font-size: 14px; color: var(--text-tertiary);">(one-time)</span></h2>
 
-      <!-- ══════════ GUIDES ══════════ -->
-      <h2 id="guides"><span class="section-number">1.</span> All Guides</h2>
-
-      <div class="page-cards">
-
-        <a href="git-workflow.html" class="page-card">
-          <span class="card-icon">&#x1F504;</span>
-          <span class="card-title">Git + Vercel Workflow</span>
-          <span class="card-desc">Daily workflow for making changes, pushing to GitHub, and previewing on Vercel. Branch structure, syncing, and merge process.</span>
-          <span class="card-arrow">Read guide &rarr;</span>
-        </a>
-
-        <a href="ai-development.html" class="page-card">
-          <span class="card-icon">&#x1F916;</span>
-          <span class="card-title">AI-Assisted Development</span>
-          <span class="card-desc">How to sync your branch before AI sessions, work with Copilot, Cursor, Claude Code, and Windsurf, and review AI-generated changes.</span>
-          <span class="card-arrow">Read guide &rarr;</span>
-        </a>
-
-        <a href="environment-setup.html" class="page-card">
-          <span class="card-icon">&#x2699;&#xFE0F;</span>
-          <span class="card-title">Environment Setup</span>
-          <span class="card-desc">One-time setup for Node.js, VS Code, Git, environment variables, authentication cookies, and Vercel team access.</span>
-          <span class="card-arrow">Read guide &rarr;</span>
-        </a>
-
-        <a href="starter-kit.html" class="page-card">
-          <span class="card-icon">&#x1F4E6;</span>
-          <span class="card-title">Starter Kit &amp; Design System</span>
-          <span class="card-desc">Platform structure, design tokens, available components, typography, and how to extend the EI V2 codebase.</span>
-          <span class="card-arrow">Read guide &rarr;</span>
-        </a>
-
-        <a href="troubleshooting.html" class="page-card page-card--full">
-          <span class="card-icon">&#x1F527;</span>
-          <span class="card-title">Troubleshooting</span>
-          <span class="card-desc">Solutions for authentication errors, merge conflicts, Vercel deployment issues, AI assistant problems, and development environment setup.</span>
-          <span class="card-arrow">View all solutions &rarr;</span>
-        </a>
-
-      </div>
-
-      <!-- ══════════ QUICK LINKS ══════════ -->
-      <h2 id="quick-links"><span class="section-number">2.</span> Quick Links</h2>
-      <div class="table-wrap">
-        <table class="ref-table">
-          <thead><tr><th>Resource</th><th>URL</th></tr></thead>
-          <tbody>
-            <tr><td>GitHub Repo</td><td><code>github.com/elevation-ai/ei-v2-redesign</code></td></tr>
-            <tr><td>Vercel Dashboard</td><td><code>vercel.com</code> &rarr; Elevation AI team</td></tr>
-            <tr><td>Auth / Login</td><td><code>devagents.elevationai.com</code></td></tr>
-            <tr><td>Slack Channel</td><td><code>#ws-apps</code></td></tr>
-            <tr><td>Live Demo Site</td><td><code>demo.elevation.com</code> (once DNS is configured)</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- ══════════ BRANCH STRUCTURE ══════════ -->
-      <h2 id="branch-structure"><span class="section-number">3.</span> Branch Structure</h2>
-      <p>Each person works on their own branch so nobody steps on anyone else's work.</p>
-
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Branch</th><th>Purpose</th><th>Who Touches It</th></tr></thead>
-          <tbody>
-            <tr><td><code>demo</code></td><td>The live product shown to investors and clients.</td><td>Nobody directly &mdash; Alan merges approved changes.</td></tr>
-            <tr><td><code>staging</code></td><td>Testing ground before reaching demo.</td><td>Alan merges reviewed changes.</td></tr>
-            <tr><td><code>dev-sachin</code></td><td>Sachin's workspace</td><td>Sachin only</td></tr>
-            <tr><td><code>dev-kevin</code></td><td>Kevin's workspace</td><td>Kevin only</td></tr>
-            <tr><td><code>dev-chris</code></td><td>Chris's workspace</td><td>Chris only</td></tr>
-            <tr><td><code>dev-hanzel</code></td><td>Hanzel's workspace</td><td>Hanzel only</td></tr>
-          </tbody>
-        </table>
+      <div class="steps">
+        <div class="step-item">
+          <p><strong>Open VS Code</strong> (or Cursor / Windsurf &mdash; they all work the same).</p>
+        </div>
+        <div class="step-item">
+          <p><strong>Clone the repo.</strong> Press <code>Cmd+Shift+P</code> (Mac) or <code>Ctrl+Shift+P</code> (Windows), type <code>Git: Clone</code>, and paste:</p>
+          <pre><code>https://github.com/Elevation-AI/ei-v2-redesign.git</code></pre>
+        </div>
+        <div class="step-item">
+          <p><strong>Install dependencies.</strong> Open the terminal (<code>Terminal &rarr; New Terminal</code>) and run:</p>
+          <pre><code>npm install</code></pre>
+        </div>
+        <div class="step-item">
+          <p><strong>Set up environment variables.</strong> In Slack <strong>#ws-apps</strong>, find the pinned <code>.env.local</code> message. Create a file called <code>.env.local</code> in the project root and paste the contents.</p>
+        </div>
       </div>
 
       <div class="callout callout--danger">
-        <div class="callout-title">The Golden Rule</div>
-        <strong>NEVER push directly to <code>demo</code> or <code>staging</code>.</strong> Always work on your own <code>dev-[yourname]</code> branch. When ready, message Alan to merge.
+        <div class="callout-title">Never commit .env.local</div>
+        This file contains private keys. It is already git-ignored. Do not rename, move, or share it.
       </div>
 
-      <!-- ══════════ DAILY CHECKLIST ══════════ -->
-      <h2 id="daily-checklist"><span class="section-number">4.</span> Daily Checklist</h2>
+      <!-- ══════════ AGENT SETUP ══════════ -->
+      <h2 id="agent-setup"><span class="section-number">2.</span> Download the Agent File <span style="font-weight: 400; font-size: 14px; color: var(--text-tertiary);">(one-time)</span></h2>
+
+      <p>This file teaches your AI assistant (Copilot, Cursor, etc.) our framework rules so it generates correct code from the start.</p>
+
+      <div class="steps">
+        <div class="step-item">
+          <p><strong>Download the agent file:</strong></p>
+          <pre><code>https://docs.elevationai.com/vibe/assets/vibeapps.agent.md</code></pre>
+          <p>Open that URL, select all (<code>Cmd+A</code>), and copy (<code>Cmd+C</code>).</p>
+        </div>
+        <div class="step-item">
+          <p><strong>Create the file in your project.</strong> In VS Code, create the folder <code>.github/agents/</code>, then create a file called <code>vibeapps.agent.md</code> inside it. Paste the contents and save.</p>
+        </div>
+        <div class="step-item">
+          <p><strong>Verify.</strong> Open Copilot Chat (<code>Cmd+Option+I</code>), set mode to <strong>Agent</strong>, and you should see <strong>elevationai-app</strong> in the agent picker.</p>
+        </div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">Using Claude as your model</div>
+        In the Copilot model picker, select <strong>Claude Sonnet 4.5</strong> or <strong>Claude Sonnet 4.6</strong> for the best results. Or leave it on <strong>Auto</strong>.
+      </div>
+
+      <!-- ══════════ YOUR BRANCH & PREVIEW ══════════ -->
+      <h2 id="your-branch"><span class="section-number">3.</span> Your Branch &amp; Preview URL <span style="font-weight: 400; font-size: 14px; color: var(--text-tertiary);">(one-time)</span></h2>
+
+      <p>Each person has their own Git branch and their own Vercel preview URL. You code on your branch, preview at your URL, and only push to <code>sandbox</code> when everything looks good.</p>
+
+      <div class="steps">
+        <div class="step-item">
+          <p><strong>Switch to your branch.</strong> Click the branch name in the <strong>bottom-left corner</strong> of VS Code and select yours:</p>
+        </div>
+      </div>
+
+      <div id="preview-urls"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Person</th><th>Branch</th><th>Preview URL</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Alan</strong></td>
+              <td><code>dev-alan</code></td>
+              <td><code>eai-v2-redesigned-alan-2027-alans-projects-8900ea45.vercel.app</code></td>
+            </tr>
+            <tr>
+              <td><strong>Sachin</strong></td>
+              <td><code>dev-sachin</code></td>
+              <td><code>eai-v2-redesigned-git-dev-sachin-alans-projects-8900ea45.vercel.app</code></td>
+            </tr>
+            <tr>
+              <td><strong>Hanzel</strong></td>
+              <td><code>dev-hanzel</code></td>
+              <td><code>eai-v2-redesigned-git-dev-hanzel-alans-projects-8900ea45.vercel.app</code></td>
+            </tr>
+            <tr>
+              <td><strong>Mehak</strong></td>
+              <td><code>dev-mehak</code></td>
+              <td><code>eai-v2-redesigned-git-dev-mehak-alans-projects-8900ea45.vercel.app</code></td>
+            </tr>
+            <tr>
+              <td><strong>Kevin</strong></td>
+              <td><code>dev-kevin</code></td>
+              <td><em>Coming soon &mdash; ask Alan</em></td>
+            </tr>
+            <tr>
+              <td><strong>Chris</strong></td>
+              <td><code>dev-chris</code></td>
+              <td><em>Coming soon &mdash; ask Alan</em></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--success">
+        <div class="callout-title">Bookmark your preview URL</div>
+        You will visit it after every push to verify your changes. It updates automatically 1&ndash;3 minutes after you push.
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">Sandbox is the shared preview</div>
+        <code>sandbox</code> is where all approved work gets merged before going to <code>demo</code> (the investor-facing site). <strong>Only push to sandbox after you have verified your changes on your own preview URL.</strong>
+      </div>
+
+      <!-- ══════════════════════════════════════════
+           DAILY WORKFLOW
+           ══════════════════════════════════════════ -->
+      <h2 id="daily"><span class="section-number">4.</span> Your Daily Workflow &mdash; The 5-Step Cycle</h2>
+
+      <p>Every time you sit down to work, follow these 5 steps in order. This is the most important section of this entire guide.</p>
+
+      <div class="flow">
+        <div class="flow-step flow-step--accent">1. Pull latest</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">2. Code with AI</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">3. Push to your branch</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">4. Check preview</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step flow-step--accent">5. Push to sandbox</div>
+      </div>
+
+      <!-- Step 1 -->
+      <h3 id="step-pull">Step 1 &mdash; Pull the latest code</h3>
+
+      <div class="callout callout--danger">
+        <div class="callout-title">Do this EVERY TIME before you start &mdash; no exceptions</div>
+        If you skip this, your AI assistant will work on stale code and create merge conflicts that break things for everyone.
+      </div>
+
+      <div class="steps">
+        <div class="step-item">
+          <p>Confirm you are on <strong>your branch</strong> (check bottom-left of VS Code &mdash; it should say <code>dev-[yourname]</code>).</p>
+        </div>
+        <div class="step-item">
+          <p>Open the terminal and run:</p>
+          <pre><code>git pull origin staging</code></pre>
+          <p>This downloads the latest code from the shared <code>staging</code> branch into your branch.</p>
+        </div>
+        <div class="step-item">
+          <p>If you see <strong>"Already up to date"</strong> &mdash; you are good. If you see <strong>"merge conflict"</strong> &mdash; stop and message Alan.</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <h3 id="step-code">Step 2 &mdash; Code with your AI assistant</h3>
+
+      <p>Now you can start building. Use Copilot, Cursor, Claude Code, or Windsurf to make your changes.</p>
+
+      <div class="callout callout--warn">
+        <div class="callout-title">AI assistants sometimes change files you didn't ask about</div>
+        Before moving to Step 3, open the <strong>Source Control panel</strong> (<code>Cmd+Shift+G</code>) and review every file that was modified. If the AI changed <code>package.json</code>, config files, or files unrelated to your task &mdash; right-click those files and select <strong>Discard Changes</strong>.
+      </div>
+
+      <!-- Step 3 -->
+      <h3 id="step-push">Step 3 &mdash; Push to your branch</h3>
+
+      <p><strong>Your changes only exist on your computer until you push.</strong> If you close VS Code without pushing, nothing gets saved to GitHub or deployed to your preview URL.</p>
+
+      <h3>Option A: Tell your AI assistant <span style="font-weight: 400; font-size: 14px; color: var(--text-tertiary);">(easiest)</span></h3>
+      <p>Type this in your AI chat:</p>
+      <pre><code>Push all my changes to my branch on GitHub with the message: "describe what you changed"</code></pre>
+
+      <h3>Option B: Use the VS Code panel</h3>
+      <div class="steps">
+        <div class="step-item"><p>Open <strong>Source Control</strong> (<code>Cmd+Shift+G</code>).</p></div>
+        <div class="step-item"><p>Type a short message describing your change (e.g., "Fixed dashboard layout").</p></div>
+        <div class="step-item"><p>Click the <strong>checkmark</strong> to commit. If asked to stage all changes, click <strong>Yes</strong>.</p></div>
+        <div class="step-item"><p>Click <strong>... &rarr; Push</strong>.</p></div>
+      </div>
+
+      <h3>Option C: Terminal commands</h3>
+      <pre><code>git add .
+git commit -m "describe your change here"
+git push</code></pre>
+
+      <!-- Step 4 -->
+      <h3 id="step-preview">Step 4 &mdash; Check your preview URL</h3>
+
+      <p>After pushing, Vercel automatically rebuilds your preview in <strong>1&ndash;3 minutes</strong>.</p>
+
+      <div class="steps">
+        <div class="step-item"><p>Open your preview URL (see the table above &mdash; bookmark it).</p></div>
+        <div class="step-item"><p>Hard-refresh: <code>Cmd+Shift+R</code> (Mac) or <code>Ctrl+Shift+R</code> (Windows).</p></div>
+        <div class="step-item"><p>Verify your changes look correct. Click around, test the pages you modified.</p></div>
+      </div>
+
+      <div class="callout callout--danger">
+        <div class="callout-title">Do NOT skip this step</div>
+        If your preview looks broken, fix it before pushing to sandbox. Once it is in sandbox, a broken change affects the shared environment.
+      </div>
+
+      <!-- Step 5 -->
+      <h3 id="step-sandbox">Step 5 &mdash; Push to sandbox</h3>
+
+      <p>Once your preview looks good, merge your work into the shared <code>sandbox</code> branch.</p>
+
+      <div class="steps">
+        <div class="step-item">
+          <p><strong>Message Alan on Slack in #ws-apps:</strong></p>
+          <p><em>"My changes on <code>dev-[yourname]</code> are ready. I've verified on my preview URL. Here's what I changed: [brief description]."</em></p>
+        </div>
+        <div class="step-item">
+          <p><strong>Alan will review and merge</strong> your branch into <code>sandbox</code>.</p>
+        </div>
+      </div>
+
+      <div class="callout callout--danger">
+        <div class="callout-title">Never push directly to sandbox or demo</div>
+        All merges to <code>sandbox</code> and <code>demo</code> go through Alan. This prevents breaking the shared preview and the investor-facing site.
+      </div>
+
+      <!-- ══════════════════════════════════════════
+           CHEATSHEET
+           ══════════════════════════════════════════ -->
+      <h2 id="cheatsheet"><span class="section-number">5.</span> Command Cheat Sheet</h2>
+
       <div class="table-wrap">
         <table class="ref-table">
-          <thead><tr><th>When</th><th>What to Do</th><th>How</th></tr></thead>
+          <thead><tr><th>When</th><th>What</th><th>Command</th></tr></thead>
           <tbody>
-            <tr><td>Before starting work</td><td>Sync your branch</td><td><code>git pull origin staging</code></td></tr>
-            <tr><td>After making changes</td><td>Save your files</td><td><code>Ctrl+S</code> / <code>Cmd+S</code></td></tr>
-            <tr><td>Ready to preview</td><td>Push to GitHub</td><td>Source Control panel &rarr; Commit &rarr; Push</td></tr>
-            <tr><td>After pushing</td><td>Check your preview URL</td><td>Go to your Vercel preview URL and refresh</td></tr>
-            <tr><td>Changes look good</td><td>Request a merge</td><td>Message Alan on Slack</td></tr>
+            <tr><td>Before starting work</td><td>Pull latest</td><td><code>git pull origin staging</code></td></tr>
+            <tr><td>Check your branch</td><td>See branch name</td><td><code>git branch</code></td></tr>
+            <tr><td>Switch branches</td><td>Go to your branch</td><td><code>git checkout dev-[yourname]</code></td></tr>
+            <tr><td>After coding</td><td>Stage all changes</td><td><code>git add .</code></td></tr>
+            <tr><td>After staging</td><td>Commit with message</td><td><code>git commit -m "your message"</code></td></tr>
+            <tr><td>After committing</td><td>Push to GitHub</td><td><code>git push</code></td></tr>
             <tr><td>Something broke</td><td>Don't panic</td><td>Message Alan with a screenshot</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h3>Terminal command cheat sheet</h3>
-      <div class="table-wrap">
-        <table class="ref-table">
-          <thead><tr><th>Action</th><th>Command</th></tr></thead>
-          <tbody>
-            <tr><td>See which branch you are on</td><td><code>git branch</code></td></tr>
-            <tr><td>Switch to your branch</td><td><code>git checkout dev-[yourname]</code></td></tr>
-            <tr><td>Pull latest from staging</td><td><code>git pull origin staging</code></td></tr>
-            <tr><td>Stage all changes</td><td><code>git add .</code></td></tr>
-            <tr><td>Commit with a message</td><td><code>git commit -m "your message"</code></td></tr>
-            <tr><td>Push to GitHub</td><td><code>git push</code></td></tr>
-          </tbody>
-        </table>
-      </div>
+      <!-- ══════════════════════════════════════════
+           BRANCH STRUCTURE
+           ══════════════════════════════════════════ -->
+      <h2 id="branches"><span class="section-number">6.</span> How Branches Work</h2>
 
-      <!-- ══════════ TEAM ══════════ -->
-      <h2 id="team"><span class="section-number">5.</span> Team &amp; Contacts</h2>
+      <p>Think of branches as separate copies of the project. Each person works on their own copy so nobody steps on anyone else's work.</p>
+
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Person</th><th>Role</th><th>Contact For</th></tr></thead>
+          <thead><tr><th>Branch</th><th>Purpose</th><th>Who Touches It</th></tr></thead>
           <tbody>
-            <tr><td><strong>Alan</strong></td><td>PM / DevOps</td><td>Merges, branch issues, access, troubleshooting</td></tr>
-            <tr><td><strong>Jay</strong></td><td>Backend</td><td>Auth setup, backend API, preview URL whitelisting</td></tr>
-            <tr><td><strong>Sachin</strong></td><td>Founder / Dev</td><td>Product direction, DNS, demo priorities</td></tr>
-            <tr><td><strong>Chris</strong></td><td>Design / Dev</td><td>UI design, Vercel setup, front-end patterns</td></tr>
-            <tr><td><strong>Hanzel</strong></td><td>Dev</td><td>Feature development, calendar app</td></tr>
-            <tr><td><strong>Kevin</strong></td><td>Dev</td><td>Deal center, portfolio views</td></tr>
+            <tr><td><code>demo</code></td><td>The live site shown to investors. <strong>Never touch this.</strong></td><td>Alan only</td></tr>
+            <tr><td><code>sandbox</code></td><td>Shared testing ground. Changes go here before demo.</td><td>Alan merges approved work here</td></tr>
+            <tr><td><code>staging</code></td><td>The source of truth for development. You pull from here.</td><td>Alan merges reviewed code here</td></tr>
+            <tr><td><code>dev-[yourname]</code></td><td>Your personal workspace. All your work happens here.</td><td>Only you</td></tr>
           </tbody>
         </table>
       </div>
-
-      <p>All communication goes through the <strong>#ws-apps</strong> Slack channel. Include screenshots when reporting issues.</p>
 
       <hr />
 
-      <p style="color: var(--text-tertiary); font-style: italic;">
-        This is a living document. As our workflow improves, these guides will be updated and re-shared.
+      <p>For deeper explanations, troubleshooting, design system reference, and AI assistant tips, see the <a href="reference.html">Reference &amp; Troubleshooting</a> page.</p>
+
+      <p style="color: var(--text-tertiary); font-style: italic; margin-top: 24px;">
+        Questions? Message Alan on Slack in <strong>#ws-apps</strong>. Always include a screenshot &mdash; it makes debugging 10x faster.
       </p>
 
       <div class="doc-footer">
-        Confidential &mdash; Elevation AI &mdash; Last updated March 30, 2026
+        Confidential &mdash; Elevation AI &mdash; Last updated March 31, 2026
       </div>
 
     </div>

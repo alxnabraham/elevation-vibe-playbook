@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reference &amp; Troubleshooting — Elevation AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+    </button>
+    <a href="index.html" class="logo">
+      <span class="logo-mark">E</span>
+      Elevation AI
+    </a>
+    <span class="divider">/</span>
+    <span class="doc-title">Reference</span>
+    <div class="header-right">
+      <span class="badge badge--internal">Internal</span>
+      <span class="badge badge--updated">Updated Mar 31, 2026</span>
+    </div>
+  </header>
+
+  <nav class="sidebar" id="sidebar">
+    <div class="cross-nav">
+      <span class="cross-nav-label">Pages</span>
+      <a href="index.html">&#x1F680; Quickstart &amp; Daily Workflow</a>
+      <a href="reference.html" class="current-page">&#x1F4DA; Reference &amp; Troubleshooting</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">How It Works</span>
+      <a href="#how-it-works" data-section="how-it-works"><span class="nav-icon">&#x1F5FA;</span> The Big Picture</a>
+      <a href="#vercel" data-section="vercel"><span class="nav-icon">&#x25B2;</span> Git &amp; Vercel</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">AI Development</span>
+      <a href="#ai-tools" data-section="ai-tools"><span class="nav-icon">&#x1F916;</span> AI Tool Tips</a>
+      <a href="#ai-pitfalls" data-section="ai-pitfalls"><span class="nav-icon">&#x1F6A8;</span> Common AI Pitfalls</a>
+      <a href="#prompts" data-section="prompts"><span class="nav-icon">&#x1F4AC;</span> Example Prompts</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Platform</span>
+      <a href="#design-system" data-section="design-system"><span class="nav-icon">&#x1F3A8;</span> Design System</a>
+      <a href="#project-structure" data-section="project-structure"><span class="nav-icon">&#x1F4C1;</span> Project Structure</a>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-section-label">Troubleshooting</span>
+      <a href="#ts-auth" data-section="ts-auth"><span class="nav-icon">&#x1F512;</span> Auth &amp; Access</a>
+      <a href="#ts-git" data-section="ts-git"><span class="nav-icon">&#x1F500;</span> Git &amp; Branches</a>
+      <a href="#ts-vercel" data-section="ts-vercel"><span class="nav-icon">&#x25B2;</span> Vercel &amp; Previews</a>
+      <a href="#ts-ai" data-section="ts-ai"><span class="nav-icon">&#x1F916;</span> AI Assistant Issues</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="content-wrapper">
+
+      <h1>Reference &amp; Troubleshooting</h1>
+      <p class="page-description">
+        How everything connects, AI development tips, design system reference, and solutions to common problems.
+      </p>
+
+      <!-- ══════════ HOW IT WORKS ══════════ -->
+      <h2 id="how-it-works"><span class="section-number">1.</span> The Big Picture</h2>
+
+      <p><strong>Git</strong> tracks every change to our code (like Google Docs version history). <strong>GitHub</strong> is where the code lives online (like a shared Drive folder). <strong>Vercel</strong> turns the code into a live website &mdash; every push to GitHub triggers an automatic rebuild.</p>
+
+      <div class="flow">
+        <div class="flow-step">You edit code in VS Code</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Push to your branch on GitHub</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Vercel auto-builds your preview</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step flow-step--accent">You see it live!</div>
+      </div>
+
+      <h3 id="vercel">How branches and previews connect</h3>
+
+      <p>Each branch has its own Vercel preview URL that updates automatically when you push. The flow for getting changes into the live demo site is:</p>
+
+      <div class="flow">
+        <div class="flow-step">Your <code>dev-*</code> branch</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step">Verify on your preview</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step"><code>sandbox</code> (shared testing)</div>
+        <span class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <div class="flow-step flow-step--accent"><code>demo</code> (investors see this)</div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout-title">Why this matters</div>
+        This flow ensures nobody's broken code reaches the demo site. You verify on your own preview first, then Alan merges to sandbox, and finally to demo.
+      </div>
+
+      <!-- ══════════ AI TOOLS ══════════ -->
+      <h2 id="ai-tools"><span class="section-number">2.</span> Working with AI Tools</h2>
+
+      <div class="tool-card">
+        <h4>GitHub Copilot (in VS Code)</h4>
+        <ul>
+          <li>Open Chat: <code>Cmd+Option+I</code> (Mac) or <code>Ctrl+Alt+I</code> (Windows)</li>
+          <li>Set mode to <strong>Agent</strong> for multi-file changes</li>
+          <li>Select <strong>elevationai-app</strong> in the agent picker to use our framework rules</li>
+          <li>Use <strong>Claude Sonnet 4.5/4.6</strong> for best results</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <h4>Cursor / Windsurf</h4>
+        <ul>
+          <li>Use <strong>Composer</strong> or <strong>Agent/Cascade</strong> mode for multi-file changes</li>
+          <li>Same Git workflow as VS Code &mdash; pull first, push after</li>
+          <li>Same terminal, same Source Control panel</li>
+        </ul>
+      </div>
+
+      <div class="tool-card">
+        <h4>Claude Code (CLI)</h4>
+        <ul>
+          <li>Run <code>git pull origin staging</code> <strong>before</strong> starting a <code>claude</code> session</li>
+          <li>Claude Code can run git commands, but pull manually first to verify no conflicts</li>
+          <li>When done, review changes with <code>git diff</code> before pushing</li>
+        </ul>
+      </div>
+
+      <!-- ══════════ AI PITFALLS ══════════ -->
+      <h2 id="ai-pitfalls"><span class="section-number">3.</span> Common AI Pitfalls</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Problem</th><th>What Happened</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Merge conflicts after pushing</strong></td><td>Forgot to pull before AI session</td><td>Message Alan. Always <code>git pull origin staging</code> first.</td></tr>
+            <tr><td><strong>AI modified unexpected files</strong></td><td>AI "fixed" things you didn't ask about</td><td>Source Control &rarr; right-click file &rarr; <strong>Discard Changes</strong></td></tr>
+            <tr><td><strong>AI changed package.json</strong></td><td>AI added unnecessary packages</td><td><code>git checkout package.json package-lock.json</code> then <code>npm install</code></td></tr>
+            <tr><td><strong>Build fails on Vercel</strong></td><td>AI introduced a syntax error</td><td>Check Vercel build log. Ask AI to fix the error. Push again.</td></tr>
+            <tr><td><strong>Changes are only on your computer</strong></td><td>You coded but never pushed</td><td>Run <code>git add . && git commit -m "message" && git push</code></td></tr>
+            <tr><td><strong>Wrong branch</strong></td><td>You were on <code>demo</code> or <code>sandbox</code></td><td>Message Alan immediately. Always check bottom-left of VS Code.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ══════════ PROMPTS ══════════ -->
+      <h2 id="prompts"><span class="section-number">4.</span> Example Prompts</h2>
+
+      <pre><code>Create a new dashboard page at /dashboard that:
+- Uses the Elevation design system tokens
+- Shows a welcome message with the user's name
+- Displays metrics in cards using the MetricsGrid component
+- Uses Tailwind CSS with our theme variables</code></pre>
+
+      <pre><code>Fix the background color on the dashboard to match the theme.
+Use our CSS variables (--background, --surface) instead of
+hardcoded colors.</code></pre>
+
+      <pre><code>Push all my changes to GitHub with the commit message:
+"Updated calendar layout and fixed sidebar spacing"</code></pre>
+
+      <p><strong>Tips:</strong> Reference existing files ("follow the pattern in the workspace page"), mention the design system ("use Elevation tokens"), and iterate ("now add a search bar").</p>
+
+      <!-- ══════════ DESIGN SYSTEM ══════════ -->
+      <h2 id="design-system"><span class="section-number">5.</span> Design System Essentials</h2>
+
+      <h3>Colors</h3>
+      <p>Always use Elevation tokens from <code>globals.css</code> &mdash; never hardcode hex values.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Token</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><code>--background</code></td><td>Page background</td></tr>
+            <tr><td><code>--foreground</code></td><td>Primary text</td></tr>
+            <tr><td><code>--primary</code></td><td>Brand color (Elevation Blue #0e62fd)</td></tr>
+            <tr><td><code>--card</code></td><td>Card backgrounds</td></tr>
+            <tr><td><code>--border</code></td><td>Borders and dividers</td></tr>
+            <tr><td><code>--muted</code></td><td>Subtle backgrounds</td></tr>
+            <tr><td><code>--destructive</code></td><td>Errors, delete actions</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Typography</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Font</th><th>Variable</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Instrument Sans</strong></td><td><code>--font-sans</code></td><td>All UI text</td></tr>
+            <tr><td><strong>Xanh Mono</strong></td><td><code>--font-serif</code></td><td>Display / hero headings</td></tr>
+            <tr><td><strong>Geist Mono</strong></td><td><code>--font-mono</code></td><td>Code blocks, data values</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Theming</h3>
+      <p>The app supports <strong>Light</strong>, <strong>Dark</strong>, and <strong>System</strong> modes. All color tokens adapt automatically. When building, use the token names &mdash; they handle both themes.</p>
+
+      <!-- ══════════ PROJECT STRUCTURE ══════════ -->
+      <h2 id="project-structure"><span class="section-number">6.</span> Project Structure</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Directory</th><th>What It Contains</th></tr></thead>
+          <tbody>
+            <tr><td><code>src/platform</code></td><td>Platform shell, templates, navigation, actions, insights (rarely touch)</td></tr>
+            <tr><td><code>src/components/platform</code></td><td>Reusable components &mdash; data tables, kanban, AI chat, metrics</td></tr>
+            <tr><td><code>src/components/ui</code></td><td>Base UI &mdash; buttons, cards, badges, inputs, modals</td></tr>
+            <tr><td><code>src/app</code></td><td>App routes &mdash; pages, layouts, API routes (you'll work here most)</td></tr>
+            <tr><td><code>src/lib</code></td><td>Utilities, Supabase clients, AI integration</td></tr>
+            <tr><td><code>design-system-contract</code></td><td>Design specs &mdash; read when building to match brand</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ══════════ TROUBLESHOOTING ══════════ -->
+      <h2 id="ts-auth"><span class="section-number">7.</span> Troubleshooting: Auth &amp; Access</h2>
+
+      <h3>"Access Denied" or blank screen</h3>
+      <ul>
+        <li>Sign in at <code>devagents.elevationai.com</code> with your <code>@elevationai.com</code> Google account</li>
+        <li>Try an <strong>Incognito/Private</strong> window</li>
+        <li>If using Safari &mdash; switch to Chrome (Safari has stricter cookie policies)</li>
+        <li>If none of this works &mdash; message Alan. Jay may need to whitelist your preview URL.</li>
+      </ul>
+
+      <h3>"Not Authenticated" error</h3>
+      <ul>
+        <li>Your session likely expired. Go to the platform, log in again.</li>
+        <li>If working locally, re-copy auth cookies (see Slack #ws-apps for instructions).</li>
+      </ul>
+
+      <h2 id="ts-git"><span class="section-number">8.</span> Troubleshooting: Git &amp; Branches</h2>
+
+      <h3>"Merge conflict" error</h3>
+      <div class="callout callout--danger">
+        <div class="callout-title">Do NOT try to fix this yourself</div>
+        Take a screenshot, message Alan on Slack. Incorrect conflict resolution can break the codebase for everyone.
+      </div>
+
+      <h3>I pushed to the wrong branch</h3>
+      <p><strong>Don't panic.</strong> Message Alan immediately with which branch and what you changed. This is fixable.</p>
+
+      <h3>I'm working on stale code</h3>
+      <p>Run <code>git pull origin staging</code>. This should be the first thing you do every time you open VS Code.</p>
+
+      <h3>"Unauthorized" when cloning</h3>
+      <p>Your GitHub account doesn't have access. Message Alan to get added to the Elevation AI organization.</p>
+
+      <h2 id="ts-vercel"><span class="section-number">9.</span> Troubleshooting: Vercel &amp; Previews</h2>
+
+      <h3>Preview shows old content</h3>
+      <ul>
+        <li>Wait 2&ndash;3 minutes after pushing for Vercel to rebuild</li>
+        <li>Hard-refresh: <code>Cmd+Shift+R</code> (Mac) or <code>Ctrl+Shift+R</code> (Windows)</li>
+        <li>Check the Vercel dashboard for build errors</li>
+      </ul>
+
+      <h3>"Does not have contributing access"</h3>
+      <ul>
+        <li>Your Vercel account isn't on the Elevation AI team</li>
+        <li>Message Alan for a team invite</li>
+        <li>Your Vercel email must match your GitHub email</li>
+      </ul>
+
+      <h3>Build failed</h3>
+      <ul>
+        <li>Click the failed deployment in Vercel to see the build log</li>
+        <li>Common causes: syntax error, missing import, broken component</li>
+        <li>Fix locally, push again</li>
+      </ul>
+
+      <h2 id="ts-ai"><span class="section-number">10.</span> Troubleshooting: AI Assistant Issues</h2>
+
+      <h3>AI modified files I didn't ask about</h3>
+      <p>Source Control panel &rarr; right-click the unwanted file &rarr; <strong>Discard Changes</strong>. Always review before committing.</p>
+
+      <h3>AI code broke the build</h3>
+      <p>Check Vercel build log, paste the error into your AI chat: "Fix this build error." Push the fix.</p>
+
+      <h3>AI isn't using our design system</h3>
+      <p>Tell it: "Use Elevation design tokens from globals.css" or "Follow the pattern in [existing file]." Make sure the <a href="index.html#agent-setup">agent file</a> is installed.</p>
+
+      <h3>Changes are only on my computer &mdash; preview hasn't updated</h3>
+      <p>You need to push. Run: <code>git add . && git commit -m "message" && git push</code>. Or tell your AI: "Push all my changes to GitHub."</p>
+
+      <hr />
+
+      <p style="color: var(--text-tertiary); font-style: italic;">
+        This is a living document. As our workflow improves, it will be updated. Questions? Message Alan on Slack in <strong>#ws-apps</strong>.
+      </p>
+
+      <div class="doc-footer">
+        Confidential &mdash; Elevation AI &mdash; Last updated March 31, 2026
+      </div>
+
+    </div>
+  </main>
+
+  <script src="nav.js"></script>
+</body>
+</html>
