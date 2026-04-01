@@ -11,32 +11,6 @@ const USERNAME = process.env.DOCS_USER || 'elevation';
 const PASSWORD = process.env.DOCS_PASS || 'vibe2026';
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
-// ── Rate limiting (best-effort — resets per serverless instance) ─
-const loginAttempts = new Map();
-const MAX_ATTEMPTS = 5;
-const LOCKOUT_MS = 15 * 60 * 1000;
-
-function isRateLimited(ip) {
-  const record = loginAttempts.get(ip);
-  if (!record) return false;
-  if (Date.now() - record.lastAttempt > LOCKOUT_MS) {
-    loginAttempts.delete(ip);
-    return false;
-  }
-  return record.count >= MAX_ATTEMPTS;
-}
-
-function recordFailedAttempt(ip) {
-  const record = loginAttempts.get(ip) || { count: 0, lastAttempt: 0 };
-  record.count += 1;
-  record.lastAttempt = Date.now();
-  loginAttempts.set(ip, record);
-}
-
-function clearAttempts(ip) {
-  loginAttempts.delete(ip);
-}
-
 // ── Timing-safe string comparison ───────────────────────────────
 function safeCompare(a, b) {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
@@ -106,15 +80,11 @@ app.get('/login', function (req, res) {
     } catch (e) { /* token invalid, show login */ }
   }
 
-  var ip = req.ip;
-  var locked = isRateLimited(ip);
   var showError = req.query.e === '1';
-  var errorHtml = locked
-    ? '<p class="error">Too many failed attempts. Try again in 15 minutes.</p>'
-    : showError
-      ? '<p class="error">Invalid username or password.</p>'
-      : '';
-  var disabledAttr = locked ? 'disabled' : '';
+  var errorHtml = showError
+    ? '<p class="error">Invalid username or password.</p>'
+    : '';
+  var disabledAttr = '';
 
   res.send('<!DOCTYPE html>\n\
 <html lang="en">\n\
@@ -263,12 +233,6 @@ app.get('/login', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
-  var ip = req.ip;
-
-  if (isRateLimited(ip)) {
-    return res.redirect('/login?e=1');
-  }
-
   var username = req.body ? req.body.username : undefined;
   var password = req.body ? req.body.password : undefined;
 
@@ -280,14 +244,12 @@ app.post('/login', function (req, res) {
   var passOk = safeCompare(password, PASSWORD);
 
   if (userOk && passOk) {
-    clearAttempts(ip);
     var token = jwt.sign({ authenticated: true }, JWT_SECRET, { expiresIn: '4h' });
     var isSecure = process.env.VERCEL === '1';
     var cookieStr = '_eai_token=' + token + '; Path=/; HttpOnly; SameSite=Lax; Max-Age=14400' + (isSecure ? '; Secure' : '');
     res.setHeader('Set-Cookie', cookieStr);
     res.redirect('/');
   } else {
-    recordFailedAttempt(ip);
     res.redirect('/login?e=1');
   }
 });
